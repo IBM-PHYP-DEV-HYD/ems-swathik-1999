@@ -2,25 +2,27 @@
 #define _XYZ_CONTRACTOR_EMPLOYEE_H_
 
 #include "XyzEmployee.H"
+#include "Utilities.H"
+#include "EmployeeInfo.H"
 
 class xyzContractorEmployee:public xyzEmployee
 {
 private:
-    string mAgencyName;
-    string mAgencyLocation;
+    ems::Agency mAgencyName;
+    ems::Location mAgencyLocation;
 public:
     xyzContractorEmployee();
-    xyzContractorEmployee(string empIDParam,string nameParam,\
-            string typeParam,string statusParam, \
-            string genderParam,string dobParam,\
-            string dojParam,string dolParam,\
-        string agencyParam,string locationParam);
+    xyzContractorEmployee(string empIDParam,string nameParam,
+            ems::EmpType typeParam,ems::EmpStatus statusParam,
+            ems::EmpGender genderParam,string dobParam,
+            string dojParam,string dolParam,
+        ems::Agency agencyParam,ems::Location locationParam);
     ~xyzContractorEmployee();
-    string getAgencyName();
-    string getAgencyLocation();
-    void setAgencyName(string agencyName);
-    void setAgencyLocation(string agencyLocation);
-    void printContractorEmpSummary();
+    ems::Agency getAgencyName();
+    ems::Location getAgencyLocation();
+    void setAgencyName(ems::Agency agencyName);
+    void setAgencyLocation(ems::Location agencyLocation);
+    void fillEmployeeTypeDetails(EmployeeInfo &empInfoParam);
 };
 
 

@@ -4,14 +4,49 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <iomanip>
 #include <ctime>
-
-#include "Node.H"
 
 using namespace std;
 
 namespace ems{
     
+    enum MainMenu{
+        AddEmployee = 1,
+        RemoveEmployee,
+        GetEmployee,
+        Others,
+        ExitMainMenu = -1
+    };
+
+    enum AddMenu {
+        Random = 1,
+        Type,
+        ExitAddMenu = -1
+    };
+
+    enum RemoveMenu {
+        ByID = 1,
+        ExitRemoveMenu = -1
+    };
+
+    enum GetMenu {
+        AllSummary = 1,
+        ByType,
+        ByGender,
+        ByStatus,
+        SingleEmployee,
+        ExitGetMenu = -1
+    };
+
+    enum OthersMenu {
+        AddLeaves = 1,
+        ConvertToFullTimeEmp,
+        SearchById,
+        SearchByName,
+        ExitOtherMenu = -1
+    };
+
     enum EmpStatus {
         Active = 1,
         Inactive,
@@ -21,13 +56,22 @@ namespace ems{
     enum EmpType {
         FullTime = 1,
         Contractor,
-        Intern
+        Intern,
+    };
+
+    enum printHeaderType {
+        FullTimeType = 1,
+        ContractorType,
+        InternType,
+        ResignedType,
+        EmployeeType,
+        AllType
     };
 
     enum EmpGender {
         Male = 1,
         Female,
-        Other
+        OtherGender
     };
 
     enum Leaves {
@@ -75,7 +119,6 @@ namespace ems{
         Mehta,
         Reddy,
         Rao,
-        Naidu,
         Iyyer,
         Pillai,
         Smith,
@@ -88,6 +131,7 @@ namespace ems{
         sen,
         Choudary,
         Naidu,
+        Kapoor,
         Shastry,
         Kumar
     };
@@ -124,235 +168,43 @@ namespace ems{
         Rohit,
         Venkatesh
     };
-}
 
-//Calculate LastDate for Intern Employee
-string calculateInternLastDate(string dateOfJoiningParam)
-{
-    int sYear = stoi(dateOfJoiningParam.substr(dateOfJoiningParam.size()-4));
-    int sMonth = stoi(dateOfJoiningParam.substr(4,2));
-    int sDay = stoi(dateOfJoiningParam.substr(7,2));
+    enum InputValid{
+        Success=1,
+        Failure =0
+    };
 
-    if(sMonth > 6)
-    {
-        sMonth = sMonth + 6 - 12;
-        sYear = sYear + 1;
-    }
-    else
-    {
-        sMonth = sMonth + 6;
-    }
-
-    string sDate = to_string(sDay) + "-" + to_string(sMonth) + "-" + to_string(sYear);
-    return sDate;
-}
-
-// Calculate LastDate for contractor Employee
-string calculatorContractorLastDate(string dateOfJoiningParam)
-{
-    int sYear = stoi(dateOfJoiningParam.substr(dateOfJoiningParam.size()-4));
-    int sMonth = stoi(dateOfJoiningParam.substr(4,2));
-    int sDay = stoi(dateOfJoiningParam.substr(7,2));
-
-    sYear++;
-
-    string sDate = to_string(sDay) + "-" + to_string(sMonth) + "-" + to_string(sYear);
-    return sDate;
-}
-
-// Display Menus
-void mainMenu()
-{
-    cout << "--------------------------------------------------------" << endl;
-    cout << "|              Employee Management System              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "|          1. Add an Employee                          |" << endl;
-    cout << "|          2. Remove an Employee                       |" << endl;
-    cout << "|          3. Get Employee Details                     |" << endl;
-    cout << "|          4. Do Something Else                        |" << endl;
-    cout << "|            (Enter -1 to exit)                        |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "Enter your choice: ";
-}
-
-void addEmployeeMenu()
-{
-    cout << "--------------------------------------------------------" << endl;
-    cout << "|              Employee Management System              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "| Add an Employee:                                     |" << endl;
-    cout << "|          1. Add an Employee at Random                |" << endl;
-    cout << "|          2. Add an Employee (F/C/I)                  |" << endl;
-    cout << "|      (Enter -1 to go back to main menu)              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "Enter your choice: ";
-}
-
-void getBasicDetails()
-{
-    cout << "--------------------------------------------------------" << endl;
-    cout << "|              Employee Management System              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "| Enter Type Of Employee:                              |" << endl;
-    cout << "|          1. Full Time Employee                       |" << endl;
-    cout << "|          2. Contractor Employee                      |" << endl;
-    cout << "|          3. Intern Employee                          |" << endl;
-    cout << "|      (Enter -1 to go back to main menu)              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "Enter your choice: ";
-}
-
-void contractorAgencyDetails()
-{
-    cout << "--------------------------------------------------------" << endl;
-    cout << "|              Employee Management System              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "| Enter Contractor Agency:                             |" << endl;
-    cout << "|          1. Avengers                                 |" << endl;
-    cout << "|          2. Justice League                           |" << endl;
-    cout << "|          3. X-Men                                    |" << endl;
-    cout << "|      (Enter -1 to go back to main menu)              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "Enter your choice: ";
-}
-
-void contractorAgencyLocationDetails()
-{
-    cout << "--------------------------------------------------------" << endl;
-    cout << "|              Employee Management System              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "| Enter Contractor Agency Location:                    |" << endl;
-    cout << "|          1. Hyderabad                                |" << endl;
-    cout << "|          2. Delhi                                    |" << endl;
-    cout << "|          3. Mumbai                                   |" << endl;
-    cout << "|          4. Pune                                     |" << endl;
-    cout << "|          5. Kolkata                                  |" << endl;
-    cout << "|          6. Chennai                                  |" << endl;
-    cout << "|          7. Banglore                                 |" << endl;
-    cout << "|      (Enter -1 to go back to main menu)              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "Enter your choice: ";
-}
-
-void internCollegeDetails()
-{
-    cout << "--------------------------------------------------------" << endl;
-    cout << "|              Employee Management System              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "| Enter Intern College:                                |" << endl;
-    cout << "|          1. IIT Delhi                                |" << endl;
-    cout << "|          2. IIT Mumbai                               |" << endl;
-    cout << "|          3. IIT Kanpur                               |" << endl;
-    cout << "|          4. IIT Hyderabad                            |" << endl;
-    cout << "|          5. NIT Warangal                             |" << endl;
-    cout << "|          6. NIT Tiruchi                              |" << endl;
-    cout << "|          7. IIIT Hyderabad                           |" << endl;
-    cout << "|      (Enter -1 to go back to main menu)              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "Enter your choice: ";
-}
-
-void internBranchDetails()
-{
-    cout << "--------------------------------------------------------" << endl;
-    cout << "|              Employee Management System              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "| Enter Intern Branch:                                 |" << endl;
-    cout << "|          1. ECE                                      |" << endl;
-    cout << "|          2. CSE                                      |" << endl;
-    cout << "|          3. IT                                       |" << endl;
-    cout << "|      (Enter -1 to go back to main menu)              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "Enter your choice: ";
-}
-
-void removeEmployeeMenu()
-{
-    cout << "--------------------------------------------------------" << endl;
-    cout << "|              Employee Management System              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "| Remove an Employee:                                  |" << endl;
-    cout << "|          1. Remove an Employee by ID                 |" << endl;
-    cout << "|          2. Remove an Employee by Name               |" << endl;
-    cout << "|      (Enter -1 to go back to main menu)              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "Enter your choice: ";
-}
-
-void getEmployeeMenu()
-{
-    cout << "--------------------------------------------------------" << endl;
-    cout << "|              Employee Management System              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "| Get Employee Details:                                |" << endl;
-    cout << "|          1. All Employees Summary                    |" << endl;
-    cout << "|          2. Employee Summary (F/C/I)                 |" << endl;
-    cout << "|          3. Employee Summary (M/F)                   |" << endl;
-    cout << "|          4. Employee Summary (A/I/R)                 |" << endl;
-    cout << "|          5. Display Employee Details                 |" << endl;
-    cout << "|      (Enter -1 to go back to main menu)              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "Enter your choice: ";
-}
-
-void getDesignationTypeBasedMenu()
-{
-    cout << "--------------------------------------------------------" << endl;
-    cout << "|              Employee Management System              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "| Get Employee Type:                                   |" << endl;
-    cout << "|          1. Full Time Employee                       |" << endl;
-    cout << "|          2. Contractor Employee                      |" << endl;
-    cout << "|          3. Intern Employee                          |" << endl;
-    cout << "|       (Enter -1 to go  back to main menu)            |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "Enter your choice: ";
-}
-
-void getGenderBasedMenu()
-{
-    cout << "--------------------------------------------------------" << endl;
-    cout << "|              Employee Management System              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "| Get Gender Type:                                     |" << endl;
-    cout << "|             1. Male                                  |" << endl;
-    cout << "|             2. Female                                |" << endl;
-    cout << "|       (Enter -1 to go  back to main menu)            |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "Enter your choice: ";
-
-}
-
-void getDesignationStatusBaseMenu()
-{
-    cout << "--------------------------------------------------------" << endl;
-    cout << "|              Employee Management System              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "| Get Status Type:                                     |" << endl;
-    cout << "|             1. Active                                |" << endl;
-    cout << "|             1. Inactive                              |" << endl;
-    cout << "|             2. Resigned                              |" << endl;
-    cout << "|       (Enter -1 to go  back to main menu)            |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "Enter your choice: ";
+    extern string empSurName[];
+    extern string empName[];
+    extern string empType[];
+    extern string empStatus[];
+    extern string empGender[];
+    extern string empAgency[];
+    extern string empCollege[];
+    extern string empBranch[];
+    extern string empLocation[];
 }
 
 
 
-void doSomethingElseMenu()
-{
-    cout << "--------------------------------------------------------" << endl;
-    cout << "|              Employee Management System              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "| Do Something Else:                                   |" << endl;
-    cout << "|  1. Add 'n' no of leaves to all Full Time Employees  |" << endl;
-    cout << "|  2. Convert an Intern to a Full Time Employee        |" << endl;
-    cout << "|  3. Search an Employee by ID                         |" << endl;
-    cout << "|  4. Search an Employee by Name                       |" << endl;
-    cout << "|      (Enter -1 to go back to main menu)              |" << endl;
-    cout << "--------------------------------------------------------" << endl;
-    cout << "Enter your choice: ";
-}
+string calculateEmployeeID(int empIdparam,ems::EmpType empTypeParam);
+string calculateInternLastDate(string dateOfJoiningParam);
+string calculatorContractorLastDate(string dateOfJoiningParam);
+void mainMenu();
+void addEmployeeMenu();
+void getEmployeeAgency();
+void contractorAgencyLocationDetails();
+void internCollegeDetails();
+void internBranchDetails();
+void getEmployeeMenu();
+void getGenderBasedMenu();
+void getDesignationTypeBasedMenu();
+void getDesignationStatusBaseMenu();
+void doSomethingElseMenu();
+void printEmployeeHeader(int widthParam, ems::printHeaderType optionParam);
+ems::InputValid isValidInput() ;
+
+
 
 
 

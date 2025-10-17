@@ -1,19 +1,20 @@
 #ifndef _XYZ_EMPLOYEE_H_
 #define _XYZ_EMPLOYEE_H_
 
-#include <iostream>
-#include <string>
+#include "Utilities.H"
+#include "XyzEmployeeInterface.H"
+
 
 using namespace std;
 
-class xyzEmployee
+class xyzEmployee:public xyzEmployeeInterface
 {
 private:
     string mName;
     string mEmpID;
-    string mGender;
-    string mDesignationType;
-    string mDesignationStatus;
+    ems::EmpGender mGender;
+    ems::EmpType mDesignationType;
+    ems::EmpStatus mDesignationStatus;
     string mDateOfBirth;
     string mDateOfJoining;
     string mDateOfLeaving;
@@ -21,29 +22,40 @@ private:
 public:
     xyzEmployee();
     xyzEmployee(string empIDParam,string nameParam,
-            string typeParam,string statusParam,
-            string genderParam,string dobParam,
+            ems::EmpType typeParam,ems::EmpStatus statusParam,
+            ems::EmpGender genderParam,string dobParam,
             string dojParam,string dolParam);
-    ~xyzEmployee();
-    string getName();
-    string getEmpID();
-    string getDesignationType();
-    string getDesignationStatus();
+    virtual ~xyzEmployee();
+    string getEmpName();
+    string getEmpId();
+    ems::EmpType getDesignationType();
+    ems::EmpStatus getDesignationStatus();
     string getDateOfBirth();
     string getDateOfJoining();
     string getDateOfLeaving();
-    string getGender();
-    void setName(string nameParam);
+    ems::EmpGender getGender();
+    void setEmpName(string nameParam);
     void setEmpID(string empIDParam);
-    void setDesignationType(string typeParam);
-    void setDesignationStatus(string statusParam);
+    void setDesignationType(ems::EmpType typeParam);
+    void setDesignationStatus(ems::EmpStatus  statusParam);
     void setDateOfBirth(string dobParam);
     void setDateOfJoining(string dojParam);
     void setDateOfLeaving(string dolParam);
-    void setGender(string genderParam);
-    virtual void printFullTimeEmpDetails();
-    virtual void printContractorEmpDetails();
-    virtual void printInternEmpDetails();
+    void setGender(ems::EmpGender genderParam);
+    virtual ems::Agency getAgencyName();
+    virtual ems::Location getAgencyLocation();
+    virtual void setAgencyName(ems::Agency agencyName);
+    virtual void setAgencyLocation(ems::Location agencyLocation);
+    virtual void setCollege(ems::College collegeParam);
+    virtual void setBranch(ems::Branch branchParam);
+    virtual ems::College getCollege();
+    virtual ems::Branch getBranch();
+    virtual int getTotalNoofLeaves();
+    virtual int getNoofLeavesAvailed();
+    virtual void setNoofLeavesAvailed(unsigned int leavesAvailedParam);
+    virtual void addNoOfleavestoFullTimeEmployees(int noOfLeavesParam);
+    virtual void fillEmployeeTypeDetails(EmployeeInfo &empInfoParam);
+    void fillEmployeeDetails(EmployeeInfo &empInfoParam);    
 };
 
 #endif  // _XYZ_EMPLOYEE_H_

@@ -7,10 +7,13 @@ class EmployeeInfo
 {
 public:
     EmployeeInfo();
+    ~EmployeeInfo();
+    bool mPrintAll;
     string mEmpName;
     string mEmpId;
     string mEmpDesignationType;
     string mEmpDesignationStatus;
+    string mEmpGender;
     string mDateOfBirth;
     string mDateOfJoining;
     string mDateOfLeaving;
@@ -18,10 +21,10 @@ public:
     string mCollegeBranch;
     string mAgencyName;
     string mAgencyLocation;
-    string mNoOfLeaves;
+    int mNoOfLeaves;
+    int mTotalNoOfLeaves;
+    void printEmployeeInfo();
+    void clearEmployeeInfo();
 };
 
-EmployeeInfo::EmployeeInfo(){}
-
-
-#endif // _EMPLOYEE_INFO_H_
+#endif //_EMPLOYEE_INFO_H_

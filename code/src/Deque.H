@@ -2,12 +2,13 @@
 #define _DEQUE_H_
 
 #include "Utilities.H"
+#include "Node.H"
 
 // Deque class definition
 template <typename T>
 class Deque
 {
-private:
+public:
     Node<T> *mFront;
     Node<T> *mRear;
     int mDequeSize;
@@ -16,13 +17,13 @@ public:
     Deque();
     Deque(int noOfElementsParam,T defaultValueParam);
     ~Deque();
-    void pushBack(const T dataParam);
-    void pushFront(const T dataParam);
+    void pushBack(T *dataParam);
+    void pushFront(T *dataParam);
     void popBack();
     void popFront();
     bool firstElement(T &valParam);
     bool lastElement(T &valParam);
-    size_t size();
+    int size();
     void clearElements();
     void printElements();
     // void resize(size_t inputsizeParam,T defaultValueParam,int directionParam);
@@ -30,7 +31,7 @@ public:
 
 //Pushing element at the back of the deque
 template <typename T>
-void Deque<T>::pushBack(const T dataParam)
+void Deque<T>::pushBack(T *dataParam)
 {
     Node<T> *mNewNode = new Node<T>;
     mNewNode->mData = dataParam;
@@ -50,7 +51,7 @@ void Deque<T>::pushBack(const T dataParam)
 
 //Pushing element at the front of the deque
 template <typename T>
-void Deque<T>::pushFront(const T dataParam)
+void Deque<T>::pushFront(T *dataParam)
 {
     Node<T> *mNewNode = new Node<T>;
     mNewNode->mData = dataParam;
@@ -130,9 +131,9 @@ bool Deque<T>::lastElement(T &valParam)
     }
 }
 
-//Getting the size of the deque
+//Getting te size of the deque
 template <typename T>
-size_t Deque<T>::size()
+int Deque<T>::size()
 {
     return this->mDequeSize;
 }

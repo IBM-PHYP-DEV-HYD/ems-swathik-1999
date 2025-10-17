@@ -6,31 +6,41 @@ xyzContractorEmployee::xyzContractorEmployee(){
 }
 
 xyzContractorEmployee::xyzContractorEmployee(string empIDParam,string nameParam,
-            string typeParam,string statusParam,
-            string genderParam,string dobParam,
+            ems::EmpType typeParam,ems::EmpStatus statusParam,
+            ems::EmpGender genderParam,string dobParam,
             string dojParam,string dolParam,
-        string agencyParam,string locationParam):xyzEmployee(empIDParam,nameParam,
+        ems::Agency agencyParam,ems::Location locationParam):xyzEmployee(empIDParam,nameParam,
             typeParam,statusParam,
             genderParam,dobParam,
             dojParam,dolParam),mAgencyName(agencyParam),mAgencyLocation(locationParam)
 {}
 
-string xyzContractorEmployee::getAgencyName()
+xyzContractorEmployee::~xyzContractorEmployee(){
+
+}
+
+ems::Agency xyzContractorEmployee::getAgencyName()
 {
     return this->mAgencyName;
 }
 
-string xyzContractorEmployee::getAgencyLocation()
+ems::Location xyzContractorEmployee::getAgencyLocation()
 {
     return this->mAgencyLocation;
 }
 
-void xyzContractorEmployee::setAgencyName(string agencyNameParam)
+void xyzContractorEmployee::setAgencyName(ems::Agency agencyNameParam)
 {
     this->mAgencyName = agencyNameParam;
 }
 
-void xyzContractorEmployee::setAgencyLocation(string agencyLocationParam)
+void xyzContractorEmployee::setAgencyLocation(ems::Location agencyLocationParam)
 {
     this->mAgencyLocation = agencyLocationParam;
+}
+
+void xyzContractorEmployee::fillEmployeeTypeDetails(EmployeeInfo &empInfoParam)
+{
+    empInfoParam.mAgencyName =  ems::empAgency[this->getAgencyName()];
+    empInfoParam.mAgencyLocation = ems::empLocation[this->getAgencyLocation()];
 }

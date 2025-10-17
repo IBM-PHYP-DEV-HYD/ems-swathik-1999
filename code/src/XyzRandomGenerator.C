@@ -1,11 +1,16 @@
 #include "Utilities.H"
 #include "XyzRandomGenerator.H"
-#include "XyzEmployeeManager.H"
+#include "XyzEmployee.H"
+
+
+xyzRandomGenerator::xyzRandomGenerator() {
+    srand(static_cast<unsigned>(time(0)));
+}
+
+xyzRandomGenerator::~xyzRandomGenerator() {}
 
 string generateRandomDateinString(int startYearParam, int endYearParam)
 {
-    srand((time(0)));
-
     int sRandYear = startYearParam + (rand() % (endYearParam - startYearParam + 1));
     int sRandMonth = 1 + (rand() % 12);
 
@@ -24,27 +29,31 @@ string generateRandomDateinString(int startYearParam, int endYearParam)
         sRandDay = 1 + rand() % 31;
     }
 
-    string sRandDate = to_string(sRandYear) + "-" + to_string(sRandMonth) + "-" + to_string(sRandDay);
+    string sRandDate = to_string(sRandDay) + "-" + to_string(sRandMonth) + "-" + to_string(sRandYear);
 
     return sRandDate;
 }
 
 string generateRandomFirstName()
 {
-    srand(time(0));
+    SurName sRandomFirstName;
+    do
+    {
+       sRandomFirstName = static_cast<SurName>(rand() % (static_cast<int>(SurName::Kumar) + 1));
+    }while(sRandomFirstName == 0);
 
-    SurName sRandomFirstName = static_cast<SurName>(rand() % (static_cast<int>(SurName::Kumar) + 1));
-
-    return to_string(sRandomFirstName);
+    return ems::empSurName[sRandomFirstName];
 }
 
 string generateRandomLastName()
 {
-    srand((time(0)));
+    Name sRandomLastName;
+    do
+    {
+        sRandomLastName = static_cast<Name>(rand() % (static_cast<int>(Name::Venkatesh) + 1));
+    }while(sRandomLastName == 0);
 
-    Name sRandomLastName = static_cast<Name>(rand() % (static_cast<int>(Name::Venkatesh) + 1));
-
-    return to_string(sRandomLastName);
+    return ems::empName[sRandomLastName];
 }
 
 string xyzRandomGenerator::generateRandomName()
@@ -52,40 +61,33 @@ string xyzRandomGenerator::generateRandomName()
     string sRandFirstName = generateRandomFirstName();
     string sRandLastName = generateRandomLastName();
 
-    string sRandName = sRandFirstName + " " + sRandLastName;
+    string sRandName = sRandLastName + " " + sRandFirstName;
 
+    cout << "Name :" << sRandName << endl;
     return sRandName;
 }
 
-string xyzRandomGenerator::generateRandomEmpID()
+ems::EmpType xyzRandomGenerator::generateRandomDesignationType()
 {
-    string sRandomEmpID = "XYZ";
-
-    if(xyzEmployeeManager::mIdNumber > 0  || xyzEmployeeManager::mIdNumber < 10)
+    EmpType sRandDesignationType;
+    do
     {
-        sRandomEmpID += "000";
-    }
-    else if(xyzEmployeeManager::mIdNumber > 9  || xyzEmployeeManager::mIdNumber < 100)
-    {
-        sRandomEmpID += "00";
-    }
-    else if(xyzEmployeeManager::mIdNumber > 99  || xyzEmployeeManager::mIdNumber < 1000)
-    {
-        sRandomEmpID += "0";
-    }
+        sRandDesignationType = static_cast<EmpType>(rand() % (static_cast<int>(EmpType::Intern) + 1));
+    }while(sRandDesignationType == 0);
 
-    sRandomEmpID += to_string(xyzEmployeeManager::mIdNumber);
-
-    return sRandomEmpID;
+    // cout << "generateRandomDesignationType : " << sRandDesignationType << "emp : " << ems::empType[sRandDesignationType] << endl;
+    return sRandDesignationType;
 }
 
-string xyzRandomGenerator::generateRandomDesignationType()
+ems::EmpStatus xyzRandomGenerator::generateRandomDesignationStatus()
 {
-    srand(time(0));
+    EmpStatus sRandDesignationStatus;
+    do
+    {
+        sRandDesignationStatus = static_cast<EmpStatus>(rand() % (static_cast<int>(EmpStatus::Resigned) + 1));
+    }while(sRandDesignationStatus == 0);
 
-    EmpType sRandDesignationType = static_cast<EmpType>(rand() % (static_cast<int>(EmpType::Intern) + 1));
-
-    return to_string(sRandDesignationType);
+    return sRandDesignationStatus;
 }
 
 string xyzRandomGenerator::generateRandomDateOfBirth()
@@ -105,38 +107,69 @@ string xyzRandomGenerator::generateRandomDateOfJoining(string sDobParam)
     return sRandDateofJoining;
 }
 
-Agency xyzRandomGenerator::generateRandomAgency()
+string xyzRandomGenerator::generateRandomDateOfLeaving(string DojParam)
 {
-    srand(time(0));
-    
-    Agency sRandAgency = static_cast<Agency>(rand() % (static_cast<int>(Agency::X_Men) + 1));
+    int sYear = stoi(DojParam.substr(DojParam.size()-4));
+
+    string sRandDateOfLeaving = generateRandomDateinString(sYear,2025);
+
+    return sRandDateOfLeaving;
+}
+
+int xyzRandomGenerator::generateRandomNoofLeaves()
+{
+    int sRandLeaves  = 1 + (rand() % 22);
+
+    return sRandLeaves;
+}
+
+Agency xyzRandomGenerator::generateRandomAgency()
+{   
+    Agency sRandAgency;
+    do{
+        sRandAgency = static_cast<Agency>(rand() % (static_cast<int>(Agency::X_Men) + 1));
+    }while(sRandAgency == 0);
 
     return sRandAgency;
 }
 
 College xyzRandomGenerator::generateRandomCollege()
 {
-    srand(time(0));
-
-    College sRandCollege = static_cast<College>(rand() % (static_cast<int>(College::IIIT_Hyderabad) + 1));
-
+    College sRandCollege;
+    do{
+        sRandCollege = static_cast<College>(rand() % (static_cast<int>(College::IIIT_Hyderabad) + 1));
+    }while(sRandCollege == 0);
+        
     return sRandCollege;
 }
 
+EmpGender xyzRandomGenerator::generateRandomEmpGender()
+{
+    EmpGender sRandEmpGender;
+    do{
+        sRandEmpGender = static_cast<EmpGender>(rand() % (static_cast<int>(EmpGender::OtherGender) + 1));
+    }while(sRandEmpGender == 0);
+
+    return sRandEmpGender;
+}
+
+
 Branch xyzRandomGenerator::generateRandomBranch()
 {
-    srand(time(0));
-
-    Branch sRandBranch = static_cast<Branch>(rand() % (static_cast<int>(Branch::IT) + 1));
+    Branch sRandBranch;
+    do{
+        sRandBranch = static_cast<Branch>(rand() % (static_cast<int>(Branch::IT) + 1));
+    }while(sRandBranch == 0);
 
     return sRandBranch;
 }
 
 Location xyzRandomGenerator::generateRandomLocation()
 {
-    srand(time(0));
-
-    Location sRandLocation = static_cast<Location>(rand() % (static_cast<int>(Location::Banglore) + 1));
+    Location sRandLocation;
+    do{
+        sRandLocation = static_cast<Location>(rand() % (static_cast<int>(Location::Banglore) + 1));
+    }while(sRandLocation == 0);
 
     return sRandLocation;
 }

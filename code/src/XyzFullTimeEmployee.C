@@ -15,8 +15,8 @@ xyzFullTimeEmployee::xyzFullTimeEmployee()
 }
 
 xyzFullTimeEmployee::xyzFullTimeEmployee(string empIDParam,string nameParam,
-            string typeParam,string statusParam,
-            string genderParam,string dobParam,
+            ems::EmpType typeParam,ems::EmpStatus statusParam,
+            ems::EmpGender genderParam,string dobParam,
             string dojParam,string dolParam,
             int leavesAvailedParam):xyzEmployee(empIDParam,nameParam,
             typeParam,statusParam,
@@ -42,4 +42,25 @@ int xyzFullTimeEmployee::getNoofLeavesAvailed()
 void xyzFullTimeEmployee::setNoofLeavesAvailed(unsigned int leavesAvailedParam)
 {
     this->mNoofLeavesAvailed = leavesAvailedParam;
+}
+
+void xyzFullTimeEmployee::fillEmployeeTypeDetails(EmployeeInfo &empinfoParam)
+{
+    empinfoParam.mTotalNoOfLeaves = this->getTotalNoofLeaves();
+    empinfoParam.mNoOfLeaves = this->getNoofLeavesAvailed();
+}
+
+void xyzFullTimeEmployee::addNoOfleavestoFullTimeEmployees(int noOfLeavesParam)
+{
+    unsigned int sLeaves = this->mNoofLeavesAvailed;
+    sLeaves += noOfLeavesParam;
+    
+    if(sLeaves > 22)
+    {
+        this->mNoofLeavesAvailed = 22;
+    }
+    else
+    {
+        this->mNoofLeavesAvailed = sLeaves;
+    }
 }

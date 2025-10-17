@@ -1,4 +1,3 @@
-#include "Utilities.H"
 #include "XyzEmployee.H"
 
 xyzEmployee::xyzEmployee(){
@@ -6,11 +5,11 @@ xyzEmployee::xyzEmployee(){
 }
 
 xyzEmployee::xyzEmployee(string empIDParam,string nameParam,
-            string typeParam,string statusParam,
-            string genderParam,string dobParam,
+            ems::EmpType typeParam,ems::EmpStatus statusParam,
+            ems::EmpGender genderParam,string dobParam,
             string dojParam,string dolParam)
 {
-    setName(nameParam);
+    setEmpName(nameParam);
     setEmpID(empIDParam);
     setDesignationStatus(statusParam);
     setDesignationType(typeParam);
@@ -20,22 +19,22 @@ xyzEmployee::xyzEmployee(string empIDParam,string nameParam,
     setDateOfLeaving(dolParam);
 }
 
-string xyzEmployee::getEmpID()
+string xyzEmployee::getEmpId()
 {
     return this->mEmpID;
 }
 
-string xyzEmployee::getName()
+string xyzEmployee::getEmpName()
 {
     return this->mName;
 }
 
-string xyzEmployee::getDesignationType()
+ems::EmpType xyzEmployee::getDesignationType()
 {
     return this->mDesignationType;
 }
 
-string xyzEmployee::getDesignationStatus()
+ems::EmpStatus xyzEmployee::getDesignationStatus()
 {
     return this->mDesignationStatus;
 }
@@ -55,7 +54,7 @@ string xyzEmployee::getDateOfLeaving()
     return this->mDateOfLeaving;
 }
 
-string xyzEmployee::getGender()
+ems::EmpGender xyzEmployee::getGender()
 {
     return this->mGender;
 }
@@ -65,17 +64,17 @@ void xyzEmployee::setEmpID(string empIDParam)
     this->mEmpID = empIDParam;
 }
 
-void xyzEmployee::setName(string nameParam)
+void xyzEmployee::setEmpName(string nameParam)
 {
     this->mName = nameParam;
 }
 
-void xyzEmployee::setDesignationType(string typeParam)
+void xyzEmployee::setDesignationType(ems::EmpType typeParam)
 {
     this->mDesignationType = typeParam;
 }
 
-void xyzEmployee::setDesignationStatus(string statusParam)
+void xyzEmployee::setDesignationStatus(ems::EmpStatus statusParam)
 {
     this->mDesignationStatus = statusParam;
 }
@@ -95,7 +94,71 @@ void xyzEmployee::setDateOfLeaving(string dolParam)
     this->mDateOfLeaving = dolParam;
 }
 
-void xyzEmployee::setGender(string genderParam)
+void xyzEmployee::setGender(ems::EmpGender genderParam)
 {
     this->mGender = genderParam;
+}
+
+void xyzEmployee::fillEmployeeDetails(EmployeeInfo &empInfoParam)
+{
+    empInfoParam.mEmpName = this->getEmpName();
+    empInfoParam.mEmpId = this->getEmpId();
+    empInfoParam.mEmpDesignationType = ems::empType[this->getDesignationType()];
+    empInfoParam.mEmpDesignationStatus = ems::empStatus[this->getDesignationStatus()];
+    empInfoParam.mEmpGender = ems::empGender[this->getGender()];
+    empInfoParam.mDateOfBirth = this->getDateOfBirth();
+    empInfoParam.mDateOfJoining = this->getDateOfJoining();
+    empInfoParam.mDateOfLeaving = this->getDateOfLeaving();
+}
+
+xyzEmployee::~xyzEmployee()
+{
+    
+}
+
+ems::College xyzEmployee::getCollege() {
+    return ems::College();
+}
+
+void xyzEmployee::setCollege(ems::College) {
+}
+
+ems::Branch xyzEmployee::getBranch() {
+    return ems::Branch();
+}
+
+void xyzEmployee::setBranch(ems::Branch) {
+    // do nothing
+}
+
+ems::Agency xyzEmployee::getAgencyName() {
+    return ems::Agency();
+}
+
+void xyzEmployee::setAgencyName(ems::Agency) {
+}
+
+ems::Location xyzEmployee::getAgencyLocation() {
+    return ems::Location();
+}
+
+void xyzEmployee::setAgencyLocation(ems::Location) {
+}
+
+int xyzEmployee::getTotalNoofLeaves() {
+    return 0;
+}
+
+int xyzEmployee::getNoofLeavesAvailed() {
+    return 0;
+}
+
+void xyzEmployee::setNoofLeavesAvailed(unsigned int) {
+}
+
+void xyzEmployee::addNoOfleavestoFullTimeEmployees(int) {
+}
+
+void xyzEmployee::fillEmployeeTypeDetails(EmployeeInfo &empInfoParam) {
+    
 }

@@ -2,26 +2,27 @@
 #define _XYZ_INTERN_EMPLOYEE_H
 
 #include "XyzEmployee.H"
+#include "Utilities.H"
 #include "EmployeeInfo.H"
 
 using namespace ems;
 
 class xyzInternEmployee:public xyzEmployee {
     private:
-        string mCollege;
-        string mBranch;
+        ems::College mCollege;
+        ems::Branch mBranch;
     public:
         xyzInternEmployee();
-        xyzInternEmployee(string empIDParam,string nameParam,\
-            string typeParam,string statusParam, \
-            string genderParam,string dobParam,\
-            string dojParam,string dolParam,\
-            string collegeParam,string branchParam);
-        void setCollege(string collegeParam);
-        void setBranch(string branchParam);
-        string getCollege();
-        string getBranch();
-        void printInternEmpSummary(EmployeeInfo &empInfoParam);
+        xyzInternEmployee(string empIDParam,string nameParam,
+            ems::EmpType typeParam,ems::EmpStatus statusParam,
+            ems::EmpGender genderParam,string dobParam,
+            string dojParam,string dolParam,
+            ems::College collegeParam,ems::Branch branchParam);
+        void setCollege(ems::College collegeParam);
+        void setBranch(ems::Branch branchParam);
+        ems::College getCollege();
+        ems::Branch getBranch();
+        void fillEmployeeTypeDetails(EmployeeInfo &empInfoParam);
 };
 
 #endif //_XYZ_INTERN_EMPLOYEE_H_

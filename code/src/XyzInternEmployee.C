@@ -1,16 +1,13 @@
 #include "Utilities.H"
 #include "XyzInternEmployee.H"
 
-xyzInternEmployee::xyzInternEmployee()
-{
-
-}
+xyzInternEmployee::xyzInternEmployee(){}
 
 xyzInternEmployee::xyzInternEmployee(string empIDParam,string nameParam,
-            string typeParam,string statusParam,
-            string genderParam,string dobParam,
+            ems::EmpType typeParam,ems::EmpStatus statusParam,
+            ems::EmpGender genderParam,string dobParam,
             string dojParam,string dolParam,
-            string collegeParam,string branchParam)
+            ems::College collegeParam,ems::Branch branchParam)
             :xyzEmployee(empIDParam,nameParam,
             typeParam,statusParam,
             genderParam,dobParam,
@@ -20,27 +17,27 @@ xyzInternEmployee::xyzInternEmployee(string empIDParam,string nameParam,
 
 }
 
-void xyzInternEmployee::setCollege(string collegeParam)
+void xyzInternEmployee::setCollege(ems::College collegeParam)
 {
     this->mCollege=collegeParam;
 }
-void xyzInternEmployee::setBranch(string branchParam)
+void xyzInternEmployee::setBranch(ems::Branch branchParam)
 {
     this->mBranch=branchParam;
 }
 
-string xyzInternEmployee::getBranch()
+ems::Branch xyzInternEmployee::getBranch()
 {
     return this->mBranch;
 }
 
-string xyzInternEmployee::getCollege()
+ems::College xyzInternEmployee::getCollege()
 {
     return this->mCollege;
 }
 
-void xyzInternEmployee::printInternEmpSummary(EmployeeInfo &empInfoParam)
+void xyzInternEmployee::fillEmployeeTypeDetails(EmployeeInfo &empInfoParam)
 {
-    empInfoParam.mCollege=this->getCollege();
-    empInfoParam.mCollegeBranch=this->getBranch();
+    empInfoParam.mCollege = ems::empCollege[this->getCollege()];
+    empInfoParam.mCollegeBranch = ems::empBranch[this->getBranch()];
 }

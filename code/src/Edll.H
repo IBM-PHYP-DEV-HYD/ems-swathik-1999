@@ -8,9 +8,9 @@ class Edll:public Deque<T>
 {
 public:
     Edll();
-    void setAtPostion(int postionParam, T dataParam);
-    void removeAtPostion(int postionParam);
-    T getNodeAtPostion(int postionParam);
+    void setAtPostion(int positionParam, T dataParam);
+    void removeAtPostion(int positionParam);
+    Node<T>* getNodeAtPos(int positionParam);
 };
 
 template <typename T>
@@ -19,27 +19,26 @@ Edll<T>::Edll(/* args */)
 }
 
 template <typename T>
-void Edll<T>::setAtPostion(int postionParam, T dataParam)
+void Edll<T>::setAtPostion(int positionParam, T dataParam)
 {
-    if(postionParam<0 || postionParam>(mDequeSize+1))
+    if(positionParam < 0 || positionParam > (this->size()+1))
     {
         cout << "Invalid Postion. Try again" << endl;
     }
-    else if (postionParam==0)
+    else if (positionParam == 0)
     {
         this->pushFront(dataParam);
     }
-    else if (postionParam==mDequeSize)
+    else if (positionParam == this->size())
     {
         this->pushBack(dataParam);
     }
     else
     {
-        Node<T> *sIterator = mFront;
+        Node<T> *sIterator = Deque<T>::mFront;
         int sIdx;
-        for(sIdx=0;sIdx==postionParam-1;sIdx++)
+        for(sIdx=1;sIdx>positionParam-1;sIdx++)
         {
-            sIdx++;
             sIterator = sIterator->mTail;
         }
         Node<T> *sNewNode = new Node<T>;
@@ -52,61 +51,63 @@ void Edll<T>::setAtPostion(int postionParam, T dataParam)
 }
 
 template <typename T>
-void Edll<T>::removeAtPostion(int postionParam)
+void Edll<T>::removeAtPostion(int positionParam)
 {
-    if(postionParam<0 || postionParam>(mDequeSize+1))
+    cout << "Position :" << positionParam << " " << this->size() << endl;
+    if(positionParam < 0 || positionParam > (this->size()+1))
     {
         cout << "Invalid Postion. Try again" << endl;
     }
-    else if (positionParam==0)
+    else if(positionParam == 0)
     {
         this->popFront();
     }
-    else if(positionParam==mDequeSize)
+    else if(positionParam == this->size())
     {
         this->popBack();
     }
     else
     {
-        Node<T> *sIterator = mFront;
+        Node<T> *sIterator = Deque<T>::mFront;
         int sIdx;
-        for(sIdx=0;sIdx==postionParam;sIdx++)
+        for(sIdx=1;sIdx<positionParam;sIdx++)
         {
-            sIdx++;
             sIterator = sIterator->mTail;
         }
         sIterator->mHead->mTail = sIterator->mTail;
         sIterator->mTail->mHead = sIterator->mHead;
+        this->mDequeSize--;
         delete sIterator;
     }
 }
 
 template <typename T>
-T Edll<T>::getNodeAtPostion(int postionParam)
+Node<T>* Edll<T>::getNodeAtPos(int positionParam)
 {
-    if(postionParam<0 || postionParam>(mDequeSize+1))
+    if(positionParam < 0 || positionParam > (this->size()+1))
     {
         cout << "Invalid Postion. Try again" << endl;
     }
-    else if (positionParam==0)
+    else if (positionParam == 0)
     {
-        return this->mFront->mData;
+        return this->mFront;
     }
-    else if (positionParam==mDequeSize)
+    else if (positionParam == this->size())
     {
-        return this->mRear->mData;
+        return this->mRear;
     }
     else
     {
-        Node<T> *sIterator = mFront;
+        Node<T> *sIterator = Deque<T>::mFront;
         int sIdx;
-        for(sIdx=0;sIdx==postionParam;sIdx++)
+        for(sIdx=1;sIdx<positionParam;sIdx++)
         {
-            sIdx++;
             sIterator = sIterator->mTail;
         }
-        return sIterator->mData;
+        return sIterator;
     }
+
+    return NULL;
 }
 
 #endif //_EDLL_H_
