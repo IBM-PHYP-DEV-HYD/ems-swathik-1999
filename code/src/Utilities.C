@@ -1,4 +1,5 @@
 #include "Utilities.H"
+#include <sstream>
 
 namespace ems {
 
@@ -28,7 +29,7 @@ namespace ems {
         "Kumar"
     };
 
-    string empName[] = {
+    string empFemaleName[] = {
         " ",
         "Aditi",
         "Swathi",
@@ -44,7 +45,9 @@ namespace ems {
         "Pooja",
         "Neha",
         "Shreya",
-        "Deepa",
+        "Deepa"
+    };
+    string empMaleName[] = {
         "Arjun",
         "Rahul",
         "Surya",
@@ -75,7 +78,6 @@ namespace ems {
 
 string calculateEmployeeID(int empIdparam,ems::EmpType empTypeParam)
 {
-    cout << "empTypeParam : " << empTypeParam << " " << ems::empType[empTypeParam] << endl;
     string sEmployeeID = "XYZ";
 
     if(empIdparam > 0  && empIdparam < 10)
@@ -106,16 +108,22 @@ string calculateEmployeeID(int empIdparam,ems::EmpType empTypeParam)
          sEmployeeID += "I";
     }
 
-    cout << "sEmp: " << sEmployeeID << endl;
 
     return sEmployeeID;
 }
 //Calculate LastDate for Intern Employee
 string calculateInternLastDate(string dateOfJoiningParam)
 {
-    int sYear = stoi(dateOfJoiningParam.substr(dateOfJoiningParam.size()-4));
-    int sMonth = stoi(dateOfJoiningParam.substr(4,2));
-    int sDay = stoi(dateOfJoiningParam.substr(7,2));
+    stringstream ss(dateOfJoiningParam);
+    string sYearStr, sMonthStr, sDayStr;
+
+    getline(ss, sDayStr, '-');
+    getline(ss, sMonthStr, '-');
+    getline(ss, sYearStr, '-');
+
+    int sYear = stoi(sYearStr);
+    int sMonth = stoi(sMonthStr);
+    int sDay = stoi(sDayStr);
 
     if(sMonth > 6)
     {
@@ -134,12 +142,20 @@ string calculateInternLastDate(string dateOfJoiningParam)
 // Calculate LastDate for contractor Employee
 string calculatorContractorLastDate(string dateOfJoiningParam)
 {
-    int sYear = stoi(dateOfJoiningParam.substr(dateOfJoiningParam.size()-4));
-    int sMonth = stoi(dateOfJoiningParam.substr(4,2));
-    int sDay = stoi(dateOfJoiningParam.substr(7,2));
-    sYear++;
+    stringstream ss(dateOfJoiningParam);
+    string sYearStr, sMonthStr, sDayStr;
 
+    getline(ss, sDayStr, '-');
+    getline(ss, sMonthStr, '-');
+    getline(ss, sYearStr, '-');
+
+    int sYear = stoi(sYearStr);
+    int sMonth = stoi(sMonthStr);
+    int sDay = stoi(sDayStr);
+
+    sYear++;
     string sDate = to_string(sDay) + "-" + to_string(sMonth) + "-" + to_string(sYear);
+
     return sDate;
 }
 
@@ -354,12 +370,53 @@ void printEmployeeHeader(int widthParam, ems::printHeaderType optionParam)
  ems::InputValid isValidInput() 
  {
     ems::InputValid sRetValue = ems::Success;
-    if (std::cin.fail()) 
+    if(cin.fail()) 
     {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); /* discard the invalid input */
-        std::cout << "Invalid Value, Please enter valid value." << std::endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid Value, Please enter valid value." << endl;
         sRetValue = ems::Failure;
+    }
+    return sRetValue;
+}
+
+
+ems::InputValid isValidEmpId(string inputParam)
+{
+    ems::InputValid sRetValue = ems::Success;
+    
+    if(inputParam.length() != 8)
+    {
+        sRetValue = ems::Failure;
+        goto end;
+    }
+
+    if(inputParam.at(0) != 'X' || inputParam.at(1) != 'Y' || inputParam.at(2) != 'Z')
+    {
+        sRetValue = ems::Failure;
+        goto end;
+    }
+
+    for (int idx = 3; idx < 7; ++idx)
+    {
+        if (!isdigit(static_cast<unsigned char>(inputParam[idx])))
+        {
+            return ems::Failure;
+            goto end;
+        }
+    }
+
+    if(inputParam.at(7) != 'F' && inputParam.at(7) != 'C' && inputParam.at(7) != 'I')
+    {
+        sRetValue = ems::Failure;
+        goto end;
+    }
+end:
+    if(sRetValue == ems::Failure)
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid Employee Id, Please enter Valid Employee ID ." << endl;
     }
     return sRetValue;
 }

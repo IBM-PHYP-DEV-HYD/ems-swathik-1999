@@ -9,9 +9,10 @@ using namespace ems;
 class xyzRandomGenerator
 {
 public:
+    static int mGenderDecideParam;
     xyzRandomGenerator();
     ~xyzRandomGenerator();
-    string generateRandomName();
+    string generateRandomName(xyzRandomGenerator randObjParam);
     ems::EmpType generateRandomDesignationType();
     ems::EmpStatus generateRandomDesignationStatus();
     string generateRandomDateOfBirth();

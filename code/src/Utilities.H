@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <iomanip>
 #include <ctime>
+#include <random>
 
 using namespace std;
 
@@ -50,13 +51,15 @@ namespace ems{
     enum EmpStatus {
         Active = 1,
         Inactive,
-        Resigned
+        Resigned,
+        EndEmpStatus
     };
 
     enum EmpType {
         FullTime = 1,
         Contractor,
         Intern,
+        EndEmpType
     };
 
     enum printHeaderType {
@@ -71,7 +74,8 @@ namespace ems{
     enum EmpGender {
         Male = 1,
         Female,
-        OtherGender
+        OtherGender,
+        EndEmpGender
     };
 
     enum Leaves {
@@ -82,7 +86,8 @@ namespace ems{
     enum Agency {
         Avengers = 1,
         Justice_League,
-        X_Men
+        X_Men,
+        EndAgency
     };
 
     enum College {
@@ -92,13 +97,15 @@ namespace ems{
         IIT_Hyderabad,
         NIT_Warangal,
         NIT_Tiruchi,
-        IIIT_Hyderabad
+        IIIT_Hyderabad,
+        EndCollege
     };
 
     enum Branch {
         ECE = 1,
         CSE,
-        IT
+        IT,
+        EndBranch
     };
 
     enum Location {
@@ -108,11 +115,12 @@ namespace ems{
         Pune,
         Kolkata,
         Chennai,
-        Banglore
+        Banglore,
+        EndLocation
     };
 
     enum SurName {
-        Sharma,
+        Sharma = 1,
         Varma,
         Singh,
         Gupta,
@@ -133,11 +141,12 @@ namespace ems{
         Naidu,
         Kapoor,
         Shastry,
-        Kumar
+        Kumar,
+        EndSurName
     };
 
-    enum Name {
-        Aditi,
+    enum FemaleName {
+        Aditi = 1,
         Swathi,
         Priya,
         Kavya,
@@ -152,7 +161,11 @@ namespace ems{
         Neha,
         Shreya,
         Deepa,
-        Arjun,
+        EndFemaleName
+    };
+
+    enum MaleName{
+        Arjun = 1,
         Rahul,
         Surya,
         Kiran,
@@ -166,16 +179,18 @@ namespace ems{
         Manoj,
         Abhishek,
         Rohit,
-        Venkatesh
+        Venkatesh,
+        EndMaleName
     };
 
     enum InputValid{
-        Success=1,
-        Failure =0
+        Success = 1,
+        Failure = 0
     };
 
     extern string empSurName[];
-    extern string empName[];
+    extern string empMaleName[];
+    extern string empFemaleName[];
     extern string empType[];
     extern string empStatus[];
     extern string empGender[];
@@ -202,7 +217,8 @@ void getDesignationTypeBasedMenu();
 void getDesignationStatusBaseMenu();
 void doSomethingElseMenu();
 void printEmployeeHeader(int widthParam, ems::printHeaderType optionParam);
-ems::InputValid isValidInput() ;
+ems::InputValid isValidInput();
+ems::InputValid isValidEmpId(string inputParam);
 
 
 

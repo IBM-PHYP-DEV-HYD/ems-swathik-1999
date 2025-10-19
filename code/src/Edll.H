@@ -53,7 +53,6 @@ void Edll<T>::setAtPostion(int positionParam, T dataParam)
 template <typename T>
 void Edll<T>::removeAtPostion(int positionParam)
 {
-    cout << "Position :" << positionParam << " " << this->size() << endl;
     if(positionParam < 0 || positionParam > (this->size()+1))
     {
         cout << "Invalid Postion. Try again" << endl;

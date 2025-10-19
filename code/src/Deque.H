@@ -82,7 +82,7 @@ void Deque<T>::popBack()
     }
     else
     {
-        std::cout << "Deque is empty" << std::endl;
+        cout << "Deque is empty" << endl;
     }
 }
 
@@ -99,7 +99,7 @@ void Deque<T>::popFront()
     }
     else
     {
-        std::cout << "Deque is empty" << std::endl;
+        cout << "Deque is empty" << endl;
     }
 }
 
@@ -159,15 +159,15 @@ void Deque<T>::printElements()
     Node<T> *sIterator = mFront;
     if(nullptr == mFront)
     {
-        std::cout << "Deque is empty." << std::endl << std::endl;
+        cout << "Deque is empty." << endl << endl;
         return;
     }
     while(sIterator)
     {
-        std::cout << " " << sIterator->mData;
+        cout << " " << sIterator->mData;
         sIterator = sIterator->mTail;
     }
-    std::cout << std::endl;
+    cout << endl;
 }
 
 //Resizing the deque // Not Required for the Moment.

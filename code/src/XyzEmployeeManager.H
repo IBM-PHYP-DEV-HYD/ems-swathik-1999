@@ -35,7 +35,7 @@ public:
     void printEmpSumByStatus(int empStatusParam);
     void searchEmployeewithName(string empNameParam);
     void searchEmployeewithID(string empIDparam);
-    void convertInternToFullTimeEmployee(string empIDparam);
+    void convertInternToFullTimeEmployee(string empIdParam, xyzRandomGenerator randomobjParam);
     void addNoOfLeavestoallFullTimeEmployees(int noOfLeavesParam);
     void addRandomEmployee(xyzRandomGenerator randObjParam);
     void checkFunc();

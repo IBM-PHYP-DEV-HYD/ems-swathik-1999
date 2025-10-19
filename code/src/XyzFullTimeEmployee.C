@@ -1,12 +1,13 @@
 #include "Utilities.H"
 #include "XyzFullTimeEmployee.H"
 
-
 void calculateLeavesAvailed(int leavesAvailedParam)
 {
-    srand(time(0));
+    random_device rd;
+    mt19937 gen(rd());
 
-    leavesAvailedParam = 1 + (rand() % (22));
+    uniform_int_distribution<> yearDist(1, 22);
+    leavesAvailedParam = yearDist(gen);
 }
 
 xyzFullTimeEmployee::xyzFullTimeEmployee()

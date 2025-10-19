@@ -58,10 +58,6 @@ void xyzEmployeeManager::addNewEmployee(string empIDParam,string nameParam,
 
 void xyzEmployeeManager::removeEmployee(string empIDParam)
 {
-    cout << "__In remove--" << endl;  
-    cout << "Active Size:  " << mActiveandInactiveEmpDeq->size() << endl;
-    cout << "Resigned size :" << mResignedEmpDeq->size() << endl;
-
     xyzRandomGenerator sRandomGeneratorObj;
     int sEmpCount = mActiveandInactiveEmpDeq->size();
     Node<xyzEmployeeInterface> *sFrontNode = mActiveandInactiveEmpDeq->getNodeAtPos(0);
@@ -107,32 +103,23 @@ void xyzEmployeeManager::printResignedEmployeeSummary()
 void xyzEmployeeManager::addRandomEmployee(xyzRandomGenerator randObjParam)
 {
     xyzEmployeeInterface *sNewEmployee = NULL;
-    xyzRandomGenerator sRandobjGenerator;
 
-    string sRandName = randObjParam.generateRandomName();
+    string sRandName = randObjParam.generateRandomName(randObjParam);
     EmpType sRandEmpType = randObjParam.generateRandomDesignationType();
-    cout << "sRandEmpType : " << ems::empType[sRandEmpType] << " sRandEm " << sRandEmpType<< endl;
     string sRandEmpID = calculateEmployeeID(this->mStaticEmpId,sRandEmpType);
     setStaticEmpID();
     string sRandDOB = randObjParam.generateRandomDateOfBirth();
     string sRandDOJ = randObjParam.generateRandomDateOfJoining(sRandDOB);
-    EmpGender sRandEmpGender = randObjParam.generateRandomEmpGender();
+    EmpGender sRandEmpGender = (randObjParam.mGenderDecideParam == 0 ? ems::Male : ems::Female);
+    (randObjParam.mGenderDecideParam == 0 ? (randObjParam.mGenderDecideParam = 1) : (randObjParam.mGenderDecideParam = 0));
     EmpStatus sRandEmpStatus = randObjParam.generateRandomDesignationStatus();
-
-    cout << "Emp Name : " << sRandName << endl;
-    cout << "Emp Id : " << sRandEmpID << endl;
-    cout << "sRandEmpType : " << ems::empType[sRandEmpType] << endl;
-    cout << "sRandEmpStatus : " << ems::empStatus[sRandEmpStatus] << endl;
-    cout << "sRandDOB : " << sRandDOB << endl;
-    cout << "sRandDOJ : " << sRandDOJ << endl;
-    cout << "sRandEmpGender : " << ems::empGender[sRandEmpGender] << endl;
 
     if(sRandEmpType == ems::FullTime)
     {
         int sRandLeaves = randObjParam.generateRandomNoofLeaves();
         if(sRandEmpStatus == ems::Resigned)
         {
-            string sRandDOL = sRandobjGenerator.generateRandomDateOfLeaving(sRandDOB);
+            string sRandDOL = randObjParam.generateRandomDateOfLeaving(sRandDOB);
             sNewEmployee = new xyzFullTimeEmployee(sRandEmpID,sRandName,sRandEmpType,sRandEmpStatus,sRandEmpGender,sRandDOB,sRandDOJ,sRandDOL,sRandLeaves);
         }
         else
@@ -145,7 +132,6 @@ void xyzEmployeeManager::addRandomEmployee(xyzRandomGenerator randObjParam)
         Agency sRandAgency = randObjParam.generateRandomAgency();
         Location sRandLocation = randObjParam.generateRandomLocation();
         string sRandDOL = calculatorContractorLastDate(sRandDOJ);
-        cout << "sRandDOL : " << sRandDOL << endl;
         sNewEmployee = new xyzContractorEmployee(sRandEmpID,sRandName,sRandEmpType,sRandEmpStatus,sRandEmpGender,sRandDOB,sRandDOJ,sRandDOL,sRandAgency,sRandLocation);
     }
     else if(sRandEmpType == ems::Intern)
@@ -153,7 +139,6 @@ void xyzEmployeeManager::addRandomEmployee(xyzRandomGenerator randObjParam)
         College sRandCollege = randObjParam.generateRandomCollege();
         Branch sRandBranch = randObjParam.generateRandomBranch();
         string sRandDOL = calculateInternLastDate(sRandDOJ);
-        cout << "sRandDOL : " << sRandDOL << endl;
         sNewEmployee = new xyzInternEmployee(sRandEmpID,sRandName,sRandEmpType,sRandEmpStatus,sRandEmpGender,sRandDOB,sRandDOJ,sRandDOL,sRandCollege,sRandBranch);
     }
 
@@ -165,9 +150,6 @@ void xyzEmployeeManager::addRandomEmployee(xyzRandomGenerator randObjParam)
     {
         mActiveandInactiveEmpDeq->pushBack(sNewEmployee);
     }
-
-    cout << "Active Size:  " << mActiveandInactiveEmpDeq->size() << endl;
-    cout << "Resigned size :" << mResignedEmpDeq->size() << endl;
 }
 
 void xyzEmployeeManager::printAllEmployeeSummary()
@@ -252,8 +234,6 @@ void xyzEmployeeManager::printEmpSumByStatus(int empStatusParam)
 
 void xyzEmployeeManager::printEmpSumByType(int empTypeParam)
 {
-    cout << empTypeParam << " " << ems::empType[empTypeParam] << endl;
-
     EmployeeInfo sEmpInfo;
     int sEmpCount = mActiveandInactiveEmpDeq->size();
     Node<xyzEmployeeInterface> *sFrontNode = mActiveandInactiveEmpDeq->getNodeAtPos(0);
@@ -291,6 +271,7 @@ void xyzEmployeeManager::searchEmployeewithID(string empIdParam)
 {
     int sEmpCount = mActiveandInactiveEmpDeq->size();
     Node<xyzEmployeeInterface> *sFrontNode = mActiveandInactiveEmpDeq->getNodeAtPos(0);
+    int sCheckFlag = 0;
 
     int sIdx;
     for(sIdx=0;sIdx<sEmpCount;sIdx++)
@@ -320,10 +301,14 @@ void xyzEmployeeManager::searchEmployeewithID(string empIdParam)
                 cout << " College         : " << ems::empCollege[sEmployee->getCollege()] << endl;
                 cout << " Branch          : " << ems::empBranch[sEmployee->getBranch()];
             }
-            
+            sCheckFlag = 1;
             break;
         }
         sFrontNode = sFrontNode->mTail;
+    }
+    if(sCheckFlag == 0)
+    {
+        cout << empIdParam << "is not present in our Employee Records." << endl;
     }
 }
 
@@ -370,13 +355,11 @@ void xyzEmployeeManager::searchEmployeewithName(string empNameParam)
     }
 }
 
-void xyzEmployeeManager::convertInternToFullTimeEmployee(string empIdParam)
+void xyzEmployeeManager::convertInternToFullTimeEmployee(string empIdParam, xyzRandomGenerator randomobjParam)
 {
     int sEmpCount = mActiveandInactiveEmpDeq->size();
     Node<xyzEmployeeInterface> *sFrontNode = mActiveandInactiveEmpDeq->getNodeAtPos(0);
     int sEmpFlag = 0; 
-
-    xyzRandomGenerator randomobj;
 
     int sIdx;
     for(sIdx=0;sIdx<sEmpCount;sIdx++)
@@ -391,7 +374,7 @@ void xyzEmployeeManager::convertInternToFullTimeEmployee(string empIdParam)
                 string sEmpDOB = sEmployee->getDateOfBirth();
                 EmpGender sEmpGender = sEmployee->getGender();
                 EmpStatus sEmpStatus = sEmployee->getDesignationStatus();
-                int sNoOfLeaves = randomobj.generateRandomNoofLeaves();
+                int sNoOfLeaves = randomobjParam.generateRandomNoofLeaves();
                 string sEmpIdParam = empIdParam.substr(0,7) + "F";
                 cout << "sEmpIdParam :" << sEmpIdParam << endl;
 
