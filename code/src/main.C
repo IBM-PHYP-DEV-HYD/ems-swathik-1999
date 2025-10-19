@@ -37,7 +37,7 @@ void processAddEmployee(xyzEmployeeManager *empManagerObj, xyzRandomGenerator ra
                 getDesignationTypeBasedMenu();
                 cin >> sChoice;
 
-                if(isValidInput() && sChoice != -1)
+                if(isValidInput() && sChoice != -1 && (sChoice > 0 && sChoice < 4))
                 {
                     sEmpType = (EmpType)sChoice;
 
@@ -51,7 +51,7 @@ void processAddEmployee(xyzEmployeeManager *empManagerObj, xyzRandomGenerator ra
                         cout << "Enter Employee Gender: \n 1. Female \n 2. Male \n 3. Others"<< endl;
                         cin >> sChoice;
 
-                        if(isValidInput())
+                        if(isValidInput() && (sChoice > 0 && sChoice < 4))
                         {
                             sEmpGender = (EmpGender)sChoice;
                             sEmpId = calculateEmployeeID(empManagerObj->getStaticEmpID(),sEmpType);
@@ -59,7 +59,7 @@ void processAddEmployee(xyzEmployeeManager *empManagerObj, xyzRandomGenerator ra
 
                             cout << "Enter Employee Status: \n 1. Active \n 2. InActive \n 3. Resigned"<< endl;
                             cin >> sChoice;
-                            if(isValidInput())
+                            if(isValidInput() && (sChoice > 0 && sChoice < 4))
                             {
                                 sEmpStatus = (EmpStatus)sChoice;
                                 if(sEmpType == ems::Contractor)
@@ -105,7 +105,7 @@ void processAddEmployee(xyzEmployeeManager *empManagerObj, xyzRandomGenerator ra
                                     sEmpNoofLeaves = randomObjParam.generateRandomNoofLeaves();
                                     sCheckFlag = 1;
                                 }
-                                if(sCheckFlag == 1)
+                                if(sCheckFlag == 1 || sEmpType == ems::FullTime)
                                 {
                                     empManagerObj->addNewEmployee(sEmpId,sEmpName,sEmpType,sEmpStatus,sEmpGender,sEmpDOB,sEmpDOJ,sEmpDOL,sEmpNoofLeaves,sEmpAgency,sEmpLocation,sEmpCollege,sEmpBranch);
                                 }

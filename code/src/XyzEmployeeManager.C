@@ -376,7 +376,6 @@ void xyzEmployeeManager::convertInternToFullTimeEmployee(string empIdParam, xyzR
                 EmpStatus sEmpStatus = sEmployee->getDesignationStatus();
                 int sNoOfLeaves = randomobjParam.generateRandomNoofLeaves();
                 string sEmpIdParam = empIdParam.substr(0,7) + "F";
-                cout << "sEmpIdParam :" << sEmpIdParam << endl;
 
                 xyzEmployeeInterface *sNewFullTimeEmployee = new xyzFullTimeEmployee(sEmpIdParam,sEmpName,ems::FullTime,sEmpStatus,sEmpGender,sEmpDOB,sEmpDOJ,"N/A",sNoOfLeaves);
 
