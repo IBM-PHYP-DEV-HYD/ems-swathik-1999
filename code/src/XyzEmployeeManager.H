@@ -22,6 +22,7 @@ public:
     ~xyzEmployeeManager();
     void setStaticEmpID();
     int getStaticEmpID();
+    int getsize();
     void addNewEmployee(string empIDParam,string nameParam,
             ems::EmpType typeParam,ems::EmpStatus statusParam,
             ems::EmpGender genderParam,string dobParam,

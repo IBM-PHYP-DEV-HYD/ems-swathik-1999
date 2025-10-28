@@ -290,11 +290,18 @@ int main()
                 case ems::MainMenu::RemoveEmployee:
                 {
                     string sUserInputEmpId;
-                    cout << "Enter the EmpLoyee Id:" <<endl;
-                    cin >> sUserInputEmpId;
-                    if(isValidEmpId(sUserInputEmpId))
-                    {   
-                        sEmpManager->removeEmployee(sUserInputEmpId);
+                    if(sEmpManager->getsize() != 0)
+                    {
+                        cout << "Enter the EmpLoyee Id:" <<endl;
+                        cin >> sUserInputEmpId;
+                        if(isValidEmpId(sUserInputEmpId))
+                        {   
+                            sEmpManager->removeEmployee(sUserInputEmpId);
+                        }
+                    }
+                    else
+                    {
+                        cout << "There are no Active Employees to Remove." << endl;
                     }
                     break;
                 }

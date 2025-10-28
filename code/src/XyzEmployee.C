@@ -7,16 +7,10 @@ xyzEmployee::xyzEmployee(){
 xyzEmployee::xyzEmployee(string empIDParam,string nameParam,
             ems::EmpType typeParam,ems::EmpStatus statusParam,
             ems::EmpGender genderParam,string dobParam,
-            string dojParam,string dolParam)
+            string dojParam,string dolParam):mName(nameParam),mEmpID(empIDParam),mGender(genderParam),
+            mDesignationType(typeParam),mDesignationStatus(statusParam),mDateOfBirth(dobParam),
+            mDateOfJoining(dojParam),mDateOfLeaving(dolParam)            
 {
-    setEmpName(nameParam);
-    setEmpID(empIDParam);
-    setDesignationStatus(statusParam);
-    setDesignationType(typeParam);
-    setGender(genderParam);
-    setDateOfBirth(dobParam);
-    setDateOfJoining(dojParam);
-    setDateOfLeaving(dolParam);
 }
 
 string xyzEmployee::getEmpId()

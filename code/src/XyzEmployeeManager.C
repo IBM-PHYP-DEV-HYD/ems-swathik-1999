@@ -103,52 +103,62 @@ void xyzEmployeeManager::printResignedEmployeeSummary()
 void xyzEmployeeManager::addRandomEmployee(xyzRandomGenerator randObjParam)
 {
     xyzEmployeeInterface *sNewEmployee = NULL;
+    int sNoOfEmployees=0;
 
-    string sRandName = randObjParam.generateRandomName(randObjParam);
-    EmpType sRandEmpType = randObjParam.generateRandomDesignationType();
-    string sRandEmpID = calculateEmployeeID(this->mStaticEmpId,sRandEmpType);
-    setStaticEmpID();
-    string sRandDOB = randObjParam.generateRandomDateOfBirth();
-    string sRandDOJ = randObjParam.generateRandomDateOfJoining(sRandDOB);
-    EmpGender sRandEmpGender = (randObjParam.mGenderDecideParam == 0 ? ems::Male : ems::Female);
-    (randObjParam.mGenderDecideParam == 0 ? (randObjParam.mGenderDecideParam = 1) : (randObjParam.mGenderDecideParam = 0));
-    EmpStatus sRandEmpStatus = randObjParam.generateRandomDesignationStatus();
-
-    if(sRandEmpType == ems::FullTime)
+    cout << "Enter No of Random Employees you want to add:" << endl;
+    cin >> sNoOfEmployees;
+    if(isValidInput() && sNoOfEmployees > 0)
     {
-        int sRandLeaves = randObjParam.generateRandomNoofLeaves();
-        if(sRandEmpStatus == ems::Resigned)
+        int sIdx;
+        for(sIdx=0;sIdx<sNoOfEmployees;sIdx++)
         {
-            string sRandDOL = randObjParam.generateRandomDateOfLeaving(sRandDOB);
-            sNewEmployee = new xyzFullTimeEmployee(sRandEmpID,sRandName,sRandEmpType,sRandEmpStatus,sRandEmpGender,sRandDOB,sRandDOJ,sRandDOL,sRandLeaves);
-        }
-        else
-        {
-            sNewEmployee = new xyzFullTimeEmployee(sRandEmpID,sRandName,sRandEmpType,sRandEmpStatus,sRandEmpGender,sRandDOB,sRandDOJ,"N/A",sRandLeaves);
-        }
-    }
-    else if(sRandEmpType == ems::Contractor)
-    {
-        Agency sRandAgency = randObjParam.generateRandomAgency();
-        Location sRandLocation = randObjParam.generateRandomLocation();
-        string sRandDOL = calculatorContractorLastDate(sRandDOJ);
-        sNewEmployee = new xyzContractorEmployee(sRandEmpID,sRandName,sRandEmpType,sRandEmpStatus,sRandEmpGender,sRandDOB,sRandDOJ,sRandDOL,sRandAgency,sRandLocation);
-    }
-    else if(sRandEmpType == ems::Intern)
-    {
-        College sRandCollege = randObjParam.generateRandomCollege();
-        Branch sRandBranch = randObjParam.generateRandomBranch();
-        string sRandDOL = calculateInternLastDate(sRandDOJ);
-        sNewEmployee = new xyzInternEmployee(sRandEmpID,sRandName,sRandEmpType,sRandEmpStatus,sRandEmpGender,sRandDOB,sRandDOJ,sRandDOL,sRandCollege,sRandBranch);
-    }
+            string sRandName = randObjParam.generateRandomName(randObjParam);
+            EmpType sRandEmpType = randObjParam.generateRandomDesignationType();
+            string sRandEmpID = calculateEmployeeID(this->mStaticEmpId,sRandEmpType);
+            setStaticEmpID();
+            string sRandDOB = randObjParam.generateRandomDateOfBirth();
+            string sRandDOJ = randObjParam.generateRandomDateOfJoining(sRandDOB);
+            EmpGender sRandEmpGender = (randObjParam.mGenderDecideParam == 0 ? ems::Male : ems::Female);
+            (randObjParam.mGenderDecideParam == 0 ? (randObjParam.mGenderDecideParam = 1) : (randObjParam.mGenderDecideParam = 0));
+            EmpStatus sRandEmpStatus = randObjParam.generateRandomDesignationStatus();
 
-    if(sRandEmpStatus == ems::Resigned)
-    {
-        mResignedEmpDeq->pushBack(sNewEmployee);
-    }
-    else
-    {
-        mActiveandInactiveEmpDeq->pushBack(sNewEmployee);
+            if(sRandEmpType == ems::FullTime)
+            {
+                int sRandLeaves = randObjParam.generateRandomNoofLeaves();
+                if(sRandEmpStatus == ems::Resigned)
+                {
+                    string sRandDOL = randObjParam.generateRandomDateOfLeaving(sRandDOB);
+                    sNewEmployee = new xyzFullTimeEmployee(sRandEmpID,sRandName,sRandEmpType,sRandEmpStatus,sRandEmpGender,sRandDOB,sRandDOJ,sRandDOL,sRandLeaves);
+                }
+                else
+                {
+                    sNewEmployee = new xyzFullTimeEmployee(sRandEmpID,sRandName,sRandEmpType,sRandEmpStatus,sRandEmpGender,sRandDOB,sRandDOJ,"N/A",sRandLeaves);
+                }
+            }
+            else if(sRandEmpType == ems::Contractor)
+            {
+                Agency sRandAgency = randObjParam.generateRandomAgency();
+                Location sRandLocation = randObjParam.generateRandomLocation();
+                string sRandDOL = calculatorContractorLastDate(sRandDOJ);
+                sNewEmployee = new xyzContractorEmployee(sRandEmpID,sRandName,sRandEmpType,sRandEmpStatus,sRandEmpGender,sRandDOB,sRandDOJ,sRandDOL,sRandAgency,sRandLocation);
+            }
+            else if(sRandEmpType == ems::Intern)
+            {
+                College sRandCollege = randObjParam.generateRandomCollege();
+                Branch sRandBranch = randObjParam.generateRandomBranch();
+                string sRandDOL = calculateInternLastDate(sRandDOJ);
+                sNewEmployee = new xyzInternEmployee(sRandEmpID,sRandName,sRandEmpType,sRandEmpStatus,sRandEmpGender,sRandDOB,sRandDOJ,sRandDOL,sRandCollege,sRandBranch);
+            }
+
+            if(sRandEmpStatus == ems::Resigned)
+            {
+                mResignedEmpDeq->pushBack(sNewEmployee);
+            }
+            else
+            {
+                mActiveandInactiveEmpDeq->pushBack(sNewEmployee);
+            }
+        }
     }
 }
 
@@ -411,6 +421,11 @@ void xyzEmployeeManager::addNoOfLeavestoallFullTimeEmployees(int noOfleavesParam
         }
         sFrontNode = sFrontNode->mTail;
     }
+}
+
+int xyzEmployeeManager::getsize()
+{
+    return mActiveandInactiveEmpDeq->size();
 }
 
 void xyzEmployeeManager::checkFunc()
