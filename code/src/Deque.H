@@ -35,14 +35,14 @@ void Deque<T>::pushBack(T *dataParam)
 {
     Node<T> *mNewNode = new Node<T>;
     mNewNode->mData = dataParam;
-    mNewNode->mTail = nullptr;
+    mNewNode->mNext = nullptr;
 
     if(mRear){
-        mNewNode->mHead = mRear;
-        mRear->mTail = mNewNode;
+        mNewNode->mPrev = mRear;
+        mRear->mNext = mNewNode;
     }
     else{
-        mNewNode->mHead = nullptr;
+        mNewNode->mPrev = nullptr;
         mFront = mNewNode;
     }
     mRear = mNewNode;
@@ -55,14 +55,14 @@ void Deque<T>::pushFront(T *dataParam)
 {
     Node<T> *mNewNode = new Node<T>;
     mNewNode->mData = dataParam;
-    mNewNode->mHead = nullptr;
+    mNewNode->mPrev = nullptr;
 
     if(mFront){
-        mNewNode->mTail = mFront;
-        mFront->mHead=mNewNode;
+        mNewNode->mNext = mFront;
+        mFront->mPrev=mNewNode;
     }
     else{
-        mNewNode->mTail=nullptr;
+        mNewNode->mNext=nullptr;
         mRear=mNewNode;
     }
     mFront = mNewNode;
@@ -75,14 +75,14 @@ void Deque<T>::popBack()
 {
     if(mRear){
         Node<T> *sIterator = mRear;
-        mRear = sIterator->mHead;
-        mRear->mTail = nullptr;
+        mRear = sIterator->mPrev;
+        mRear->mNext = nullptr;
         delete sIterator;
         this->mDequeSize--;
     }
     else
     {
-        cout << "Deque is empty" << endl;
+        std::cout << "Deque is empty" << std::endl;
     }
 }
 
@@ -92,14 +92,14 @@ void Deque<T>::popFront()
 {
     if(mFront){
         Node<T> *sIterator = mFront;
-        mFront = sIterator->mTail;
-        mFront->mHead = nullptr;
+        mFront = sIterator->mNext;
+        mFront->mPrev = nullptr;
         delete sIterator;
         this->mDequeSize--;
     }
     else
     {
-        cout << "Deque is empty" << endl;
+        std::cout << "Deque is empty" << std::endl;
     }
 }
 
@@ -145,7 +145,7 @@ void Deque<T>::clearElements()
     while(mFront!=nullptr)
     {
         Node<T> *sIterator = mFront;
-        mFront = mFront->mTail;
+        mFront = mFront->mNext;
         delete sIterator;
     }
     mFront = nullptr;
@@ -159,15 +159,15 @@ void Deque<T>::printElements()
     Node<T> *sIterator = mFront;
     if(nullptr == mFront)
     {
-        cout << "Deque is empty." << endl << endl;
+        std::cout << "Deque is empty." << std::endl << std::endl;
         return;
     }
     while(sIterator)
     {
-        cout << " " << sIterator->mData;
-        sIterator = sIterator->mTail;
+        std::cout << " " << sIterator->mData;
+        sIterator = sIterator->mNext;
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 
 //Resizing the deque // Not Required for the Moment.
@@ -236,7 +236,7 @@ Deque<T>::~Deque()
     while(this->mFront)
     {
         Node<T> *sIterator = this->mFront;
-        this->mFront = this->mFront->mTail;
+        this->mFront = this->mFront->mNext;
         delete sIterator;
     }
 }

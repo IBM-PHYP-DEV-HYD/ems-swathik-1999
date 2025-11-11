@@ -5,57 +5,54 @@
 #include "XyzEmployeeInterface.H"
 
 
-using namespace std;
-
 class xyzEmployee:public xyzEmployeeInterface
 {
 private:
-    string mName;
-    string mEmpID;
+    std::string mName;
+    std::string mEmpID;
     ems::EmpGender mGender;
     ems::EmpType mDesignationType;
     ems::EmpStatus mDesignationStatus;
-    string mDateOfBirth;
-    string mDateOfJoining;
-    string mDateOfLeaving;
+    std::string mDateOfBirth;
+    std::string mDateOfJoining;
+    std::string mDateOfLeaving;
 
 public:
     xyzEmployee();
-    xyzEmployee(string empIDParam,string nameParam,
+    xyzEmployee(std::string empIDParam,std::string nameParam,
             ems::EmpType typeParam,ems::EmpStatus statusParam,
-            ems::EmpGender genderParam,string dobParam,
-            string dojParam,string dolParam);
+            ems::EmpGender genderParam,std::string dobParam,
+            std::string dojParam,std::string dolParam);
     virtual ~xyzEmployee();
-    string getEmpName();
-    string getEmpId();
-    ems::EmpType getDesignationType();
-    ems::EmpStatus getDesignationStatus();
-    string getDateOfBirth();
-    string getDateOfJoining();
-    string getDateOfLeaving();
-    ems::EmpGender getGender();
-    void setEmpName(string nameParam);
-    void setEmpID(string empIDParam);
+    const std::string getEmpName();
+    const std::string getEmpId();
+    const ems::EmpType getDesignationType();
+    const ems::EmpStatus getDesignationStatus();
+    const std::string getDateOfBirth();
+    const std::string getDateOfJoining();
+    const std::string getDateOfLeaving();
+    const ems::EmpGender getGender();
+    void setEmpName(std::string nameParam);
+    void setEmpID(std::string empIDParam);
     void setDesignationType(ems::EmpType typeParam);
     void setDesignationStatus(ems::EmpStatus  statusParam);
-    void setDateOfBirth(string dobParam);
-    void setDateOfJoining(string dojParam);
-    void setDateOfLeaving(string dolParam);
+    void setDateOfBirth(std::string dobParam);
+    void setDateOfJoining(std::string dojParam);
+    void setDateOfLeaving(std::string dolParam);
     void setGender(ems::EmpGender genderParam);
-    virtual ems::Agency getAgencyName();
-    virtual ems::Location getAgencyLocation();
+    virtual const ems::Agency getAgencyName();
+    virtual const ems::Location getAgencyLocation();
     virtual void setAgencyName(ems::Agency agencyName);
     virtual void setAgencyLocation(ems::Location agencyLocation);
     virtual void setCollege(ems::College collegeParam);
     virtual void setBranch(ems::Branch branchParam);
-    virtual ems::College getCollege();
-    virtual ems::Branch getBranch();
-    virtual int getTotalNoofLeaves();
-    virtual int getNoofLeavesAvailed();
+    virtual const ems::College getCollege();
+    virtual const ems::Branch getBranch();
+    virtual const int getTotalNoofLeaves();
+    virtual const int getNoofLeavesAvailed();
     virtual void setNoofLeavesAvailed(unsigned int leavesAvailedParam);
     virtual void addNoOfleavestoFullTimeEmployees(int noOfLeavesParam);
-    virtual void fillEmployeeTypeDetails(EmployeeInfo &empInfoParam);
-    void fillEmployeeDetails(EmployeeInfo &empInfoParam);    
+    virtual const void fillEmployeeTypeDetails(EmployeeInfoRecord *empInfoParam);
 };
 
 #endif  // _XYZ_EMPLOYEE_H_

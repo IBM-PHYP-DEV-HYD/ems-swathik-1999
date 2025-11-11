@@ -1,17 +1,15 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
 #include "Utilities.H"
 #include "XyzEmployeeManager.H"
 #include "XyzRandomGenerator.H"
 
 void processAddEmployee(xyzEmployeeManager *empManagerObj, xyzRandomGenerator randomObjParam)
 {
-    int sAddMenuChoice=0,sChoice = 1,sEmpNoofLeaves,sCheckFlag=0;
+    int sAddMenuChoice=0,sChoice = 1,sEmpNoofLeaves,sCheckFlag=0,sRetValue=1;
 
-    string sEmpName,sEmpId,sEmpDOB,sEmpDOJ,sEmpDOL;
+    std::string sEmpName,sEmpId,sEmpDOB,sEmpDOJ,sEmpDOL;
     EmpType sEmpType;
     EmpStatus sEmpStatus;
     EmpGender sEmpGender;
@@ -20,10 +18,10 @@ void processAddEmployee(xyzEmployeeManager *empManagerObj, xyzRandomGenerator ra
     Agency sEmpAgency;
     Location sEmpLocation;
 
-    while(true)
+    while(sRetValue)
     {
         addEmployeeMenu();
-        cin >> sAddMenuChoice;
+        std::cin >> sAddMenuChoice;
 
         switch(sAddMenuChoice)
         {
@@ -35,21 +33,21 @@ void processAddEmployee(xyzEmployeeManager *empManagerObj, xyzRandomGenerator ra
             case ems::AddMenu::Type:
             {
                 getDesignationTypeBasedMenu();
-                cin >> sChoice;
+                std::cin >> sChoice;
 
-                if(isValidInput() && sChoice != -1 && (sChoice > 0 && sChoice < 4))
+                if(isValidInput() && (sChoice > 0 && sChoice < 4))
                 {
                     sEmpType = (EmpType)sChoice;
 
-                    cout << "Enter Employee Name:";
-                    cin >> sEmpName;
+                    std::cout << "Enter Employee Name:";
+                    std::cin >> sEmpName;
                     if(isValidInput())
                     {
                         sEmpDOB = randomObjParam.generateRandomDateOfBirth();
                         sEmpDOJ = randomObjParam.generateRandomDateOfJoining(sEmpDOB);
 
-                        cout << "Enter Employee Gender: \n 1. Female \n 2. Male \n 3. Others"<< endl;
-                        cin >> sChoice;
+                        std::cout << "Enter Employee Gender: \n 1. Female \n 2. Male \n 3. Others"<< std::endl;
+                        std::cin >> sChoice;
 
                         if(isValidInput() && (sChoice > 0 && sChoice < 4))
                         {
@@ -57,8 +55,8 @@ void processAddEmployee(xyzEmployeeManager *empManagerObj, xyzRandomGenerator ra
                             sEmpId = calculateEmployeeID(empManagerObj->getStaticEmpID(),sEmpType);
                             empManagerObj->setStaticEmpID();
 
-                            cout << "Enter Employee Status: \n 1. Active \n 2. InActive \n 3. Resigned"<< endl;
-                            cin >> sChoice;
+                            std::cout << "Enter Employee Status: \n 1. Active \n 2. InActive \n 3. Resigned"<< std::endl;
+                            std::cin >> sChoice;
                             if(isValidInput() && (sChoice > 0 && sChoice < 4))
                             {
                                 sEmpStatus = (EmpStatus)sChoice;
@@ -66,14 +64,14 @@ void processAddEmployee(xyzEmployeeManager *empManagerObj, xyzRandomGenerator ra
                                 {
                                     sEmpDOL = calculatorContractorLastDate(sEmpDOJ);
                                     getEmployeeAgency();
-                                    cin>>sChoice;
+                                    std::cin>>sChoice;
 
                                     if(isValidInput())
                                     {
                                         sEmpAgency = (Agency)sChoice;
 
                                         contractorAgencyLocationDetails();
-                                        cin >> sChoice;
+                                        std::cin >> sChoice;
                                         if(isValidInput())
                                         {
                                             sEmpLocation = (Location)sChoice;
@@ -85,13 +83,13 @@ void processAddEmployee(xyzEmployeeManager *empManagerObj, xyzRandomGenerator ra
                                 {
                                     sEmpDOL = calculateInternLastDate(sEmpDOJ);
                                     internCollegeDetails();
-                                    cin >> sChoice;
+                                    std::cin >> sChoice;
                                     if(isValidInput())
                                     {
                                         sEmpCollege = (College)sChoice;
 
                                         internBranchDetails();
-                                        cin >> sChoice;
+                                        std::cin >> sChoice;
                                         if(isValidInput())
                                         {
                                             sEmpBranch = (Branch)sChoice;
@@ -114,35 +112,33 @@ void processAddEmployee(xyzEmployeeManager *empManagerObj, xyzRandomGenerator ra
                     }
                     else
                     {
-                        cout << "Enter Valid Employee Name." << endl;
+                        std::cout << "Enter Valid Employee Name." << std::endl;
                     }
                 }
                 break;
             }
             case ems::AddMenu::ExitAddMenu:
             {
-                return;
+                sRetValue=0;
             }
             default:
-                cout << "Enter a Valid Input" << endl;
             break;
         }
-
     }
 }
 
 void processGetEmployee(xyzEmployeeManager *empManagerObjParam)
 {
     int sGetMenuchoice = 1,sGetEmpByTypeChoice = 1,sGetEmpByGenderChoice = 1,sGetEmpByStatusChoice = 1;
+    int sRetValue=1;
+    std::string sEmpIdUserInput;
 
-    string sEmpIdUserInput;
-
-    while(1)
+    while(sRetValue)
     {
         getEmployeeMenu();
-        cin >> sGetMenuchoice;
+        std::cin >> sGetMenuchoice;
 
-        if(isValidInput())
+        if(sGetMenuchoice == -1 || isValidInput())
         {
             switch(sGetMenuchoice)
             {
@@ -154,7 +150,7 @@ void processGetEmployee(xyzEmployeeManager *empManagerObjParam)
                 case ems::GetMenu::ByType:
                 {
                     getDesignationTypeBasedMenu();
-                    cin >> sGetEmpByTypeChoice;
+                    std::cin >> sGetEmpByTypeChoice;
                     if(isValidInput() && sGetEmpByTypeChoice != -1)
                     {
                         empManagerObjParam->printEmpSumByType(sGetEmpByTypeChoice);
@@ -164,7 +160,7 @@ void processGetEmployee(xyzEmployeeManager *empManagerObjParam)
                 case ems::GetMenu::ByGender:
                 {
                     getGenderBasedMenu();
-                    cin >> sGetEmpByGenderChoice;
+                    std::cin >> sGetEmpByGenderChoice;
                     if(isValidInput() && sGetEmpByGenderChoice != -1)
                     {
                         empManagerObjParam->printEmpSumByGender(sGetEmpByGenderChoice);
@@ -174,7 +170,7 @@ void processGetEmployee(xyzEmployeeManager *empManagerObjParam)
                 case ems::GetMenu::ByStatus:
                 {
                     getDesignationStatusBaseMenu();
-                    cin >> sGetEmpByStatusChoice;
+                    std::cin >> sGetEmpByStatusChoice;
                     if(isValidInput() && sGetEmpByStatusChoice != -1)
                     {
                         empManagerObjParam->printEmpSumByStatus(sGetEmpByStatusChoice);
@@ -183,8 +179,8 @@ void processGetEmployee(xyzEmployeeManager *empManagerObjParam)
                 }
                 case ems::GetMenu::SingleEmployee:
                 {
-                    cout << "Enter Employee Id: " << endl;
-                    cin >> sEmpIdUserInput;
+                    std::cout << "Enter Employee Id: " << std::endl;
+                    std::cin >> sEmpIdUserInput;
                     if(isValidEmpId(sEmpIdUserInput))
                     {
                         empManagerObjParam->searchEmployeewithID(sEmpIdUserInput);
@@ -193,7 +189,7 @@ void processGetEmployee(xyzEmployeeManager *empManagerObjParam)
                 }
                 case ems::GetMenu::ExitGetMenu:
                 {
-                    return;
+                    sRetValue=0;
                     break;
                 }
             }
@@ -206,17 +202,17 @@ void othersMenu(xyzEmployeeManager *empManagerObjParam, xyzRandomGenerator randO
     int sOtherMenuChoice;
 
     doSomethingElseMenu();
-    cin >> sOtherMenuChoice;
+    std::cin >> sOtherMenuChoice;
 
-    if(isValidInput())
+    if(sOtherMenuChoice == -1 || isValidInput())
     {
         switch(sOtherMenuChoice)
         {
             case ems::OthersMenu::AddLeaves:
             {
                 int sUserInputLeaves;
-                cout << "Enter No of leaves:";
-                cin >> sUserInputLeaves;
+                std::cout << "Enter No of leaves:";
+                std::cin >> sUserInputLeaves;
                 if(isValidInput())
                 {
                     empManagerObjParam->addNoOfLeavestoallFullTimeEmployees(sUserInputLeaves);
@@ -225,9 +221,9 @@ void othersMenu(xyzEmployeeManager *empManagerObjParam, xyzRandomGenerator randO
             }
             case ems::OthersMenu::ConvertToFullTimeEmp:
             {
-                string sEmpIDInput;
-                cout << "Enter Employee ID :";
-                cin >> sEmpIDInput;
+                std::string sEmpIDInput;
+                std::cout << "Enter Employee ID :";
+                std::cin >> sEmpIDInput;
                 if(isValidEmpId(sEmpIDInput))
                 {
                     empManagerObjParam->convertInternToFullTimeEmployee(sEmpIDInput,randObjParam);
@@ -236,9 +232,9 @@ void othersMenu(xyzEmployeeManager *empManagerObjParam, xyzRandomGenerator randO
             }
             case ems::OthersMenu::SearchById:
             {
-                string sEmpIDInput;
-                cout << "Enter Employee ID :";
-                cin >> sEmpIDInput;
+                std::string sEmpIDInput;
+                std::cout << "Enter Employee ID :";
+                std::cin >> sEmpIDInput;
                 if(isValidEmpId(sEmpIDInput))
                 {
                     empManagerObjParam->searchEmployeewithID(sEmpIDInput);
@@ -247,17 +243,16 @@ void othersMenu(xyzEmployeeManager *empManagerObjParam, xyzRandomGenerator randO
             }
             case ems::OthersMenu::SearchByName:
             {
-                string sEmpNameInput;
-                cout << "Enter Employee Name :";
-                cin.clear();
-                cin.ignore();
-                getline(cin,sEmpNameInput);
+                std::string sEmpNameInput;
+                std::cout << "Enter Employee Name :";
+                std::cin.clear();
+                std::cin.ignore();
+                getline(std::cin,sEmpNameInput);
                 empManagerObjParam->searchEmployeewithName(sEmpNameInput);
                 break;
             }
             case ems::OthersMenu::ExitOtherMenu:
             {
-                return;
                 break;
             }
             default:
@@ -270,15 +265,15 @@ int main()
 {
     srand(time(0));
     xyzEmployeeManager *sEmpManager = new xyzEmployeeManager();
-    int sMainMenuOption = 0;
+    int sMainMenuOption = 0, sRetVal = 1;
     xyzRandomGenerator sRandomGeneratorobj;
 
-    while(1)
+    while(sRetVal)
     {
         mainMenu();
-        cin >> sMainMenuOption;
+        std::cin >> sMainMenuOption;
 
-        if(isValidInput())
+        if(sMainMenuOption == -1 || isValidInput())
         {
             switch(sMainMenuOption)
             {
@@ -289,11 +284,11 @@ int main()
                 }
                 case ems::MainMenu::RemoveEmployee:
                 {
-                    string sUserInputEmpId;
+                    std::string sUserInputEmpId;
                     if(sEmpManager->getsize() != 0)
                     {
-                        cout << "Enter the EmpLoyee Id:" <<endl;
-                        cin >> sUserInputEmpId;
+                        std::cout << "Enter the EmpLoyee Id:" <<std::endl;
+                        std::cin >> sUserInputEmpId;
                         if(isValidEmpId(sUserInputEmpId))
                         {   
                             sEmpManager->removeEmployee(sUserInputEmpId);
@@ -301,7 +296,7 @@ int main()
                     }
                     else
                     {
-                        cout << "There are no Active Employees to Remove." << endl;
+                        std::cout << "There are no Active Employees to Remove." << std::endl;
                     }
                     break;
                 }
@@ -317,12 +312,12 @@ int main()
                 }
                 case ems::MainMenu::ExitMainMenu:
                 {
-                    exit(EXIT_SUCCESS);
+                    sRetVal = 0;
                 }
-                default:
-                    cout << "Enter a Valid Input";
-                break;
             }
         }
     }
+
+    delete sEmpManager;
+    return 0;
 }

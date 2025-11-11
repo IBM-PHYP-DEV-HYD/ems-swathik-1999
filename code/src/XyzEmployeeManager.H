@@ -23,22 +23,23 @@ public:
     void setStaticEmpID();
     int getStaticEmpID();
     int getsize();
-    void addNewEmployee(string empIDParam,string nameParam,
+    void addNewEmployee(std::string empIDParam,std::string nameParam,
             ems::EmpType typeParam,ems::EmpStatus statusParam,
-            ems::EmpGender genderParam,string dobParam,
-            string dojParam,string dolParam,int noOfLeavesParam, ems::Agency agencyParam,
+            ems::EmpGender genderParam,std::string dobParam,
+            std::string dojParam,std::string dolParam,int noOfLeavesParam, ems::Agency agencyParam,
             ems::Location locationParam,ems::College collegeParam,ems::Branch branchParam);
-    void removeEmployee(string empIDParam);
+    void removeEmployee(std::string empIDParam);
     void printResignedEmployeeSummary();
     void printAllEmployeeSummary();
     void printEmpSumByType(int empTypeParam);
     void printEmpSumByGender(int empGenderParam);
     void printEmpSumByStatus(int empStatusParam);
-    void searchEmployeewithName(string empNameParam);
-    void searchEmployeewithID(string empIDparam);
-    void convertInternToFullTimeEmployee(string empIdParam, xyzRandomGenerator randomobjParam);
+    void searchEmployeewithName(std::string empNameParam);
+    void searchEmployeewithID(std::string empIDparam);
+    void convertInternToFullTimeEmployee(std::string empIdParam, xyzRandomGenerator randomobjParam);
     void addNoOfLeavestoallFullTimeEmployees(int noOfLeavesParam);
     void addRandomEmployee(xyzRandomGenerator randObjParam);
+    void printEmployeeInfoRecord();
     void checkFunc();
 };
 

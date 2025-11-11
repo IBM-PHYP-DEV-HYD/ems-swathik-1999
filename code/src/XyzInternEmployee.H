@@ -3,7 +3,7 @@
 
 #include "XyzEmployee.H"
 #include "Utilities.H"
-#include "EmployeeInfo.H"
+#include "EmployeeInfoRecord.H"
 
 using namespace ems;
 
@@ -13,16 +13,16 @@ class xyzInternEmployee:public xyzEmployee {
         ems::Branch mBranch;
     public:
         xyzInternEmployee();
-        xyzInternEmployee(string empIDParam,string nameParam,
+        xyzInternEmployee(std::string empIDParam,std::string nameParam,
             ems::EmpType typeParam,ems::EmpStatus statusParam,
-            ems::EmpGender genderParam,string dobParam,
-            string dojParam,string dolParam,
+            ems::EmpGender genderParam,std::string dobParam,
+            std::string dojParam,std::string dolParam,
             ems::College collegeParam,ems::Branch branchParam);
         void setCollege(ems::College collegeParam);
         void setBranch(ems::Branch branchParam);
-        ems::College getCollege();
-        ems::Branch getBranch();
-        void fillEmployeeTypeDetails(EmployeeInfo &empInfoParam);
+        const ems::College getCollege();
+        const ems::Branch getBranch();
+        const void fillEmployeeTypeDetails(EmployeeInfoRecord *empInfoParam);
 };
 
 #endif //_XYZ_INTERN_EMPLOYEE_H_

@@ -3,7 +3,7 @@
 
 #include "XyzEmployee.H"
 #include "Utilities.H"
-#include "EmployeeInfo.H"
+#include "EmployeeInfoRecord.H"
 
 class xyzContractorEmployee:public xyzEmployee
 {
@@ -12,17 +12,17 @@ private:
     ems::Location mAgencyLocation;
 public:
     xyzContractorEmployee();
-    xyzContractorEmployee(string empIDParam,string nameParam,
+    xyzContractorEmployee(std::string empIDParam,std::string nameParam,
             ems::EmpType typeParam,ems::EmpStatus statusParam,
-            ems::EmpGender genderParam,string dobParam,
-            string dojParam,string dolParam,
+            ems::EmpGender genderParam,std::string dobParam,
+            std::string dojParam,std::string dolParam,
         ems::Agency agencyParam,ems::Location locationParam);
     ~xyzContractorEmployee();
-    ems::Agency getAgencyName();
-    ems::Location getAgencyLocation();
+    const ems::Agency getAgencyName();
+    const ems::Location getAgencyLocation();
     void setAgencyName(ems::Agency agencyName);
     void setAgencyLocation(ems::Location agencyLocation);
-    void fillEmployeeTypeDetails(EmployeeInfo &empInfoParam);
+    const void fillEmployeeTypeDetails(EmployeeInfoRecord *empInfoParam);
 };
 
 

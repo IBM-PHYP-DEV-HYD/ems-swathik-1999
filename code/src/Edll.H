@@ -23,7 +23,7 @@ void Edll<T>::setAtPostion(int positionParam, T dataParam)
 {
     if(positionParam < 0 || positionParam > (this->size()+1))
     {
-        cout << "Invalid Postion. Try again" << endl;
+        std::cout << "Invalid Postion. Try again" << std::endl;
     }
     else if (positionParam == 0)
     {
@@ -39,14 +39,14 @@ void Edll<T>::setAtPostion(int positionParam, T dataParam)
         int sIdx;
         for(sIdx=1;sIdx>positionParam-1;sIdx++)
         {
-            sIterator = sIterator->mTail;
+            sIterator = sIterator->mNext;
         }
         Node<T> *sNewNode = new Node<T>;
         sNewNode->mData = dataParam;
-        sNewNode->mHead = sIterator;
-        sNewNode->mTail = sIterator->mTail;
-        sIterator->mTail->mHead = sNewNode;
-        sIterator->mTail = sNewNode;
+        sNewNode->mPrev = sIterator;
+        sNewNode->mNext = sIterator->mNext;
+        sIterator->mNext->mPrev = sNewNode;
+        sIterator->mNext = sNewNode;
     }
 }
 
@@ -55,7 +55,7 @@ void Edll<T>::removeAtPostion(int positionParam)
 {
     if(positionParam < 0 || positionParam > (this->size()+1))
     {
-        cout << "Invalid Postion. Try again" << endl;
+        std::cout << "Invalid Postion. Try again" << std::endl;
     }
     else if(positionParam == 0)
     {
@@ -71,10 +71,10 @@ void Edll<T>::removeAtPostion(int positionParam)
         int sIdx;
         for(sIdx=1;sIdx<positionParam;sIdx++)
         {
-            sIterator = sIterator->mTail;
+            sIterator = sIterator->mNext;
         }
-        sIterator->mHead->mTail = sIterator->mTail;
-        sIterator->mTail->mHead = sIterator->mHead;
+        sIterator->mPrev->mNext = sIterator->mNext;
+        sIterator->mNext->mPrev = sIterator->mPrev;
         this->mDequeSize--;
         delete sIterator;
     }
@@ -85,7 +85,7 @@ Node<T>* Edll<T>::getNodeAtPos(int positionParam)
 {
     if(positionParam < 0 || positionParam > (this->size()+1))
     {
-        cout << "Invalid Postion. Try again" << endl;
+        std::cout << "Invalid Postion. Try again" << std::endl;
     }
     else if (positionParam == 0)
     {
@@ -101,7 +101,7 @@ Node<T>* Edll<T>::getNodeAtPos(int positionParam)
         int sIdx;
         for(sIdx=1;sIdx<positionParam;sIdx++)
         {
-            sIterator = sIterator->mTail;
+            sIterator = sIterator->mNext;
         }
         return sIterator;
     }

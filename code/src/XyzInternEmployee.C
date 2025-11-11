@@ -3,10 +3,10 @@
 
 xyzInternEmployee::xyzInternEmployee(){}
 
-xyzInternEmployee::xyzInternEmployee(string empIDParam,string nameParam,
+xyzInternEmployee::xyzInternEmployee(std::string empIDParam,std::string nameParam,
             ems::EmpType typeParam,ems::EmpStatus statusParam,
-            ems::EmpGender genderParam,string dobParam,
-            string dojParam,string dolParam,
+            ems::EmpGender genderParam,std::string dobParam,
+            std::string dojParam,std::string dolParam,
             ems::College collegeParam,ems::Branch branchParam)
             :xyzEmployee(empIDParam,nameParam,
             typeParam,statusParam,
@@ -26,18 +26,26 @@ void xyzInternEmployee::setBranch(ems::Branch branchParam)
     this->mBranch=branchParam;
 }
 
-ems::Branch xyzInternEmployee::getBranch()
+const ems::Branch xyzInternEmployee::getBranch()
 {
     return this->mBranch;
 }
 
-ems::College xyzInternEmployee::getCollege()
+const ems::College xyzInternEmployee::getCollege()
 {
     return this->mCollege;
 }
 
-void xyzInternEmployee::fillEmployeeTypeDetails(EmployeeInfo &empInfoParam)
+const void xyzInternEmployee::fillEmployeeTypeDetails(EmployeeInfoRecord *empInfoParam)
 {
-    empInfoParam.mCollege = ems::empCollege[this->getCollege()];
-    empInfoParam.mCollegeBranch = ems::empBranch[this->getBranch()];
+    empInfoParam->setEmpName(this->getEmpName());
+    empInfoParam->setEmpId(this->getEmpId());
+    empInfoParam->setEmpType(ems::empType[this->getDesignationType()]);
+    empInfoParam->setEmpStatus(ems::empStatus[this->getDesignationStatus()]);
+    empInfoParam->setEmpGender(ems::empGender[this->getGender()]);
+    empInfoParam->setDOB(this->getDateOfBirth());
+    empInfoParam->setDOJ(this->getDateOfJoining());
+    empInfoParam->setDOL(this->getDateOfLeaving());
+    empInfoParam->setCollege(ems::empCollege[this->getCollege()]);
+    empInfoParam->setBranch(ems::empBranch[this->getBranch()]);
 }

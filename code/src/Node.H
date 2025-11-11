@@ -3,6 +3,6 @@ template <typename T>
 
 struct Node{
     T *mData;
-    Node<T> *mHead;
-    Node<T> *mTail;
+    Node<T> *mPrev;
+    Node<T> *mNext;
 };

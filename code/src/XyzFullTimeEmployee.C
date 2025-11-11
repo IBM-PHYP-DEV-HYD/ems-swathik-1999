@@ -3,10 +3,10 @@
 
 void calculateLeavesAvailed(int leavesAvailedParam)
 {
-    random_device rd;
-    mt19937 gen(rd());
+    std::random_device rd;
+    std::mt19937 gen(rd());
 
-    uniform_int_distribution<> yearDist(1, 22);
+    std::uniform_int_distribution<> yearDist(1, 22);
     leavesAvailedParam = yearDist(gen);
 }
 
@@ -15,10 +15,10 @@ xyzFullTimeEmployee::xyzFullTimeEmployee()
 
 }
 
-xyzFullTimeEmployee::xyzFullTimeEmployee(string empIDParam,string nameParam,
+xyzFullTimeEmployee::xyzFullTimeEmployee(std::string empIDParam,std::string nameParam,
             ems::EmpType typeParam,ems::EmpStatus statusParam,
-            ems::EmpGender genderParam,string dobParam,
-            string dojParam,string dolParam,
+            ems::EmpGender genderParam,std::string dobParam,
+            std::string dojParam,std::string dolParam,
             int leavesAvailedParam):xyzEmployee(empIDParam,nameParam,
             typeParam,statusParam,
             genderParam,dobParam,
@@ -30,12 +30,12 @@ xyzFullTimeEmployee::xyzFullTimeEmployee(string empIDParam,string nameParam,
 
 xyzFullTimeEmployee::~xyzFullTimeEmployee(){}
 
-int xyzFullTimeEmployee::getTotalNoofLeaves()
+const int xyzFullTimeEmployee::getTotalNoofLeaves()
 {
     return this->mTotalNoofLeaves;
 }
 
-int xyzFullTimeEmployee::getNoofLeavesAvailed()
+const int xyzFullTimeEmployee::getNoofLeavesAvailed()
 {
     return this->mNoofLeavesAvailed;
 }
@@ -45,10 +45,18 @@ void xyzFullTimeEmployee::setNoofLeavesAvailed(unsigned int leavesAvailedParam)
     this->mNoofLeavesAvailed = leavesAvailedParam;
 }
 
-void xyzFullTimeEmployee::fillEmployeeTypeDetails(EmployeeInfo &empinfoParam)
+const void xyzFullTimeEmployee::fillEmployeeTypeDetails(EmployeeInfoRecord *empinfoParam)
 {
-    empinfoParam.mTotalNoOfLeaves = this->getTotalNoofLeaves();
-    empinfoParam.mNoOfLeaves = this->getNoofLeavesAvailed();
+    empinfoParam->setEmpName(this->getEmpName());
+    empinfoParam->setEmpId(this->getEmpId());
+    empinfoParam->setEmpType(ems::empType[this->getDesignationType()]);
+    empinfoParam->setEmpStatus(ems::empStatus[this->getDesignationStatus()]);
+    empinfoParam->setEmpGender(ems::empGender[this->getGender()]);
+    empinfoParam->setDOB(this->getDateOfBirth());
+    empinfoParam->setDOJ(this->getDateOfJoining());
+    empinfoParam->setDOL(this->getDateOfLeaving());
+    empinfoParam->setTotalLeaves(this->getTotalNoofLeaves());
+    empinfoParam->setNoOfLeaves(this->getNoofLeavesAvailed());
 }
 
 void xyzFullTimeEmployee::addNoOfleavestoFullTimeEmployees(int noOfLeavesParam)

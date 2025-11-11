@@ -26,10 +26,10 @@ int xyzEmployeeManager::getStaticEmpID()
     return this->mStaticEmpId;
 }
 
-void xyzEmployeeManager::addNewEmployee(string empIDParam,string nameParam,
+void xyzEmployeeManager::addNewEmployee(std::string empIDParam,std::string nameParam,
         ems::EmpType typeParam,ems::EmpStatus statusParam,
-            ems::EmpGender genderParam,string dobParam,
-            string dojParam,string dolParam, int noOfLeavesParam, ems::Agency agencyParam,
+            ems::EmpGender genderParam,std::string dobParam,
+            std::string dojParam,std::string dolParam, int noOfLeavesParam, ems::Agency agencyParam,
             ems::Location locationParam,ems::College collegeParam,ems::Branch branchParam)
 {
     xyzEmployeeInterface *sNewEmployee = NULL;
@@ -56,14 +56,14 @@ void xyzEmployeeManager::addNewEmployee(string empIDParam,string nameParam,
     }
 }
 
-void xyzEmployeeManager::removeEmployee(string empIDParam)
+void xyzEmployeeManager::removeEmployee(std::string empIDParam)
 {
     xyzRandomGenerator sRandomGeneratorObj;
     int sEmpCount = mActiveandInactiveEmpDeq->size();
     Node<xyzEmployeeInterface> *sFrontNode = mActiveandInactiveEmpDeq->getNodeAtPos(0);
 
     int sIdx;
-    for(sIdx=1;sIdx<sEmpCount;sIdx++)
+    for(sIdx=0;sIdx<sEmpCount;sIdx++)
     {
         xyzEmployeeInterface *sEmployee = sFrontNode->mData;
         if(sEmployee->getEmpId() == empIDParam)
@@ -77,13 +77,13 @@ void xyzEmployeeManager::removeEmployee(string empIDParam)
             }
             break;
         }
-        sFrontNode = sFrontNode->mTail;
+        sFrontNode = sFrontNode->mNext;
     }
 }
 
 void xyzEmployeeManager::printResignedEmployeeSummary()
 {
-    EmployeeInfo sEmpInfo;
+    EmployeeInfoRecord *sEmpInfo = new EmployeeInfoRecord();
     int sResignedEmpCount = mResignedEmpDeq->size();
     Node<xyzEmployeeInterface> *sFrontNode = mResignedEmpDeq->getNodeAtPos(0);
 
@@ -92,12 +92,14 @@ void xyzEmployeeManager::printResignedEmployeeSummary()
     int sIdx;
     for(sIdx=0;sIdx<sResignedEmpCount;sIdx++)
     {
+        sEmpInfo->clearEmployeeInfoRecord();
         xyzEmployeeInterface *sEmployee = sFrontNode->mData;
-        sEmployee->fillEmployeeDetails(sEmpInfo);
-        sEmpInfo.mPrintAll=false;
-        sEmpInfo.printEmployeeInfo();
-        sFrontNode = sFrontNode->mTail;
+        sEmployee->fillEmployeeTypeDetails(sEmpInfo);
+        sEmpInfo->setPrintVal(false);
+        sEmpInfo->printEmployeeInfoRecord();
+        sFrontNode = sFrontNode->mNext;
     }
+    delete sEmpInfo;
 }
 
 void xyzEmployeeManager::addRandomEmployee(xyzRandomGenerator randObjParam)
@@ -105,19 +107,20 @@ void xyzEmployeeManager::addRandomEmployee(xyzRandomGenerator randObjParam)
     xyzEmployeeInterface *sNewEmployee = NULL;
     int sNoOfEmployees=0;
 
-    cout << "Enter No of Random Employees you want to add:" << endl;
-    cin >> sNoOfEmployees;
-    if(isValidInput() && sNoOfEmployees > 0)
+    std::cout << "Enter No of Random Employees you want to add:" << std::endl;
+    std::cin >> sNoOfEmployees; 
+
+    if(isValidInput() && (sNoOfEmployees > 1 && sNoOfEmployees > 1000))
     {
         int sIdx;
         for(sIdx=0;sIdx<sNoOfEmployees;sIdx++)
         {
-            string sRandName = randObjParam.generateRandomName(randObjParam);
+            std::string sRandName = randObjParam.generateRandomName(randObjParam);
             EmpType sRandEmpType = randObjParam.generateRandomDesignationType();
-            string sRandEmpID = calculateEmployeeID(this->mStaticEmpId,sRandEmpType);
+            std::string sRandEmpID = calculateEmployeeID(this->mStaticEmpId,sRandEmpType);
             setStaticEmpID();
-            string sRandDOB = randObjParam.generateRandomDateOfBirth();
-            string sRandDOJ = randObjParam.generateRandomDateOfJoining(sRandDOB);
+            std::string sRandDOB = randObjParam.generateRandomDateOfBirth();
+            std::string sRandDOJ = randObjParam.generateRandomDateOfJoining(sRandDOB);
             EmpGender sRandEmpGender = (randObjParam.mGenderDecideParam == 0 ? ems::Male : ems::Female);
             (randObjParam.mGenderDecideParam == 0 ? (randObjParam.mGenderDecideParam = 1) : (randObjParam.mGenderDecideParam = 0));
             EmpStatus sRandEmpStatus = randObjParam.generateRandomDesignationStatus();
@@ -127,7 +130,7 @@ void xyzEmployeeManager::addRandomEmployee(xyzRandomGenerator randObjParam)
                 int sRandLeaves = randObjParam.generateRandomNoofLeaves();
                 if(sRandEmpStatus == ems::Resigned)
                 {
-                    string sRandDOL = randObjParam.generateRandomDateOfLeaving(sRandDOB);
+                    std::string sRandDOL = randObjParam.generateRandomDateOfLeaving(sRandDOB);
                     sNewEmployee = new xyzFullTimeEmployee(sRandEmpID,sRandName,sRandEmpType,sRandEmpStatus,sRandEmpGender,sRandDOB,sRandDOJ,sRandDOL,sRandLeaves);
                 }
                 else
@@ -139,14 +142,14 @@ void xyzEmployeeManager::addRandomEmployee(xyzRandomGenerator randObjParam)
             {
                 Agency sRandAgency = randObjParam.generateRandomAgency();
                 Location sRandLocation = randObjParam.generateRandomLocation();
-                string sRandDOL = calculatorContractorLastDate(sRandDOJ);
+                std::string sRandDOL = calculatorContractorLastDate(sRandDOJ);
                 sNewEmployee = new xyzContractorEmployee(sRandEmpID,sRandName,sRandEmpType,sRandEmpStatus,sRandEmpGender,sRandDOB,sRandDOJ,sRandDOL,sRandAgency,sRandLocation);
             }
             else if(sRandEmpType == ems::Intern)
             {
                 College sRandCollege = randObjParam.generateRandomCollege();
                 Branch sRandBranch = randObjParam.generateRandomBranch();
-                string sRandDOL = calculateInternLastDate(sRandDOJ);
+                std::string sRandDOL = calculateInternLastDate(sRandDOJ);
                 sNewEmployee = new xyzInternEmployee(sRandEmpID,sRandName,sRandEmpType,sRandEmpStatus,sRandEmpGender,sRandDOB,sRandDOJ,sRandDOL,sRandCollege,sRandBranch);
             }
 
@@ -160,11 +163,15 @@ void xyzEmployeeManager::addRandomEmployee(xyzRandomGenerator randObjParam)
             }
         }
     }
+    else
+    {
+        std::cout << "Enter the value between 1-1000" << std::endl;
+    }
 }
 
 void xyzEmployeeManager::printAllEmployeeSummary()
 {
-    EmployeeInfo sEmpInfo;
+    EmployeeInfoRecord *sEmpInfo = new EmployeeInfoRecord();
     int sEmpCount = mActiveandInactiveEmpDeq->size();
     Node<xyzEmployeeInterface> *sFrontNode = mActiveandInactiveEmpDeq ? mActiveandInactiveEmpDeq->getNodeAtPos(0) : NULL;
 
@@ -173,19 +180,19 @@ void xyzEmployeeManager::printAllEmployeeSummary()
     int sIdx;
     for(sIdx=0;sIdx<sEmpCount;sIdx++)
     {
-        sEmpInfo.clearEmployeeInfo();
+        sEmpInfo->clearEmployeeInfoRecord();
         xyzEmployeeInterface *sEmployee = sFrontNode->mData;
-        sEmployee->fillEmployeeDetails(sEmpInfo);
         sEmployee->fillEmployeeTypeDetails(sEmpInfo);
-        sEmpInfo.mPrintAll=true;
-        sEmpInfo.printEmployeeInfo();
-        sFrontNode = sFrontNode->mTail;
+        sEmpInfo->setPrintVal(true);
+        sEmpInfo->printEmployeeInfoRecord();
+        sFrontNode = sFrontNode->mNext;
     }
+    delete sEmpInfo;
 }
 
 void xyzEmployeeManager::printEmpSumByGender(int empGenderParam)
 {
-    EmployeeInfo sEmpInfo;
+    EmployeeInfoRecord *sEmpInfo = new EmployeeInfoRecord();
     int sEmpCount = mActiveandInactiveEmpDeq->size();
     Node<xyzEmployeeInterface> *sFrontNode = mActiveandInactiveEmpDeq->getNodeAtPos(0);
 
@@ -197,19 +204,19 @@ void xyzEmployeeManager::printEmpSumByGender(int empGenderParam)
         xyzEmployeeInterface *sEmployee = sFrontNode->mData;
         if(sEmployee->getGender() == empGenderParam)
         {
-            sEmpInfo.clearEmployeeInfo();
-            sEmployee->fillEmployeeDetails(sEmpInfo);
+            sEmpInfo->clearEmployeeInfoRecord();
             sEmployee->fillEmployeeTypeDetails(sEmpInfo);
-            sEmpInfo.mPrintAll=false;
-            sEmpInfo.printEmployeeInfo();
+            sEmpInfo->setPrintVal(false);
+            sEmpInfo->printEmployeeInfoRecord();
         }
-        sFrontNode = sFrontNode->mTail;
+        sFrontNode = sFrontNode->mNext;
     }
+    delete sEmpInfo;
 }
 
 void xyzEmployeeManager::printEmpSumByStatus(int empStatusParam)
 {
-    EmployeeInfo sEmpInfo;
+    EmployeeInfoRecord *sEmpInfo = new EmployeeInfoRecord();
     int sEmpCount;
     Node<xyzEmployeeInterface> *sFrontNode = NULL;
 
@@ -232,19 +239,19 @@ void xyzEmployeeManager::printEmpSumByStatus(int empStatusParam)
         xyzEmployeeInterface *sEmployee = sFrontNode->mData;
         if(empStatusParam == sEmployee->getDesignationStatus())
         {
-            sEmpInfo.clearEmployeeInfo();
-            sEmployee->fillEmployeeDetails(sEmpInfo);
+            sEmpInfo->clearEmployeeInfoRecord();
             sEmployee->fillEmployeeTypeDetails(sEmpInfo);
-            sEmpInfo.mPrintAll=true;
-            sEmpInfo.printEmployeeInfo();
+            sEmpInfo->setPrintVal(true);
+            sEmpInfo->printEmployeeInfoRecord();
         }
-        sFrontNode = sFrontNode->mTail;
+        sFrontNode = sFrontNode->mNext;
     }
+    delete sEmpInfo;
 }
 
 void xyzEmployeeManager::printEmpSumByType(int empTypeParam)
 {
-    EmployeeInfo sEmpInfo;
+    EmployeeInfoRecord *sEmpInfo = new EmployeeInfoRecord();
     int sEmpCount = mActiveandInactiveEmpDeq->size();
     Node<xyzEmployeeInterface> *sFrontNode = mActiveandInactiveEmpDeq->getNodeAtPos(0);
 
@@ -267,17 +274,17 @@ void xyzEmployeeManager::printEmpSumByType(int empTypeParam)
         xyzEmployeeInterface *sEmployee = sFrontNode->mData;
         if(empTypeParam == sEmployee->getDesignationType())
         {
-            sEmpInfo.clearEmployeeInfo();
-            sEmployee->fillEmployeeDetails(sEmpInfo);
+            sEmpInfo->clearEmployeeInfoRecord();
             sEmployee->fillEmployeeTypeDetails(sEmpInfo);
-            sEmpInfo.mPrintAll=false;
-            sEmpInfo.printEmployeeInfo();
+            sEmpInfo->setPrintVal(true);
+            sEmpInfo->printEmployeeInfoRecord();
         }
-        sFrontNode = sFrontNode->mTail;
+        sFrontNode = sFrontNode->mNext;
     }
+    delete sEmpInfo;
 }
 
-void xyzEmployeeManager::searchEmployeewithID(string empIdParam)
+void xyzEmployeeManager::searchEmployeewithID(std::string empIdParam)
 {
     int sEmpCount = mActiveandInactiveEmpDeq->size();
     Node<xyzEmployeeInterface> *sFrontNode = mActiveandInactiveEmpDeq->getNodeAtPos(0);
@@ -289,40 +296,39 @@ void xyzEmployeeManager::searchEmployeewithID(string empIdParam)
         xyzEmployeeInterface *sEmployee = sFrontNode->mData;
         if(empIdParam == sEmployee->getEmpId())
         {
-            cout << " Employee Name   : " << sEmployee->getEmpName() << endl;
-            cout << " Employee ID     : " << sEmployee->getEmpId() << endl;
-            cout << " Employee Type   : " << ems::empType[sEmployee->getDesignationType()] << endl;
-            cout << " Employee Status : " << ems::empStatus[sEmployee->getDesignationStatus()] << endl;
-            cout << " Gender          : " << ems::empGender[sEmployee->getGender()] << endl;
-            cout << " Date Of Birth   : " << sEmployee->getDateOfBirth() << endl;
-            cout << " Date Of Joining : " << sEmployee->getDateOfJoining() << endl;
-            cout << " Date Of Leaving : " << sEmployee->getDateOfLeaving() << endl;
+            std::cout << " Employee Name   : " << sEmployee->getEmpName() << std::endl;
+            std::cout << " Employee ID     : " << sEmployee->getEmpId() << std::endl;
+            std::cout << " Employee Type   : " << ems::empType[sEmployee->getDesignationType()] << std::endl;
+            std::cout << " Employee Status : " << ems::empStatus[sEmployee->getDesignationStatus()] << std::endl;
+            std::cout << " Gender          : " << ems::empGender[sEmployee->getGender()] << std::endl;
+            std::cout << " Date Of Birth   : " << sEmployee->getDateOfBirth() << std::endl;
+            std::cout << " Date Of Joining : " << sEmployee->getDateOfJoining() << std::endl;
             if(ems::FullTime == sEmployee->getDesignationType())
             {
-                cout << " Leaves left     :" << sEmployee->getNoofLeavesAvailed();
+                std::cout << " Leaves left     :" << sEmployee->getNoofLeavesAvailed();
             }
             else if(ems::Contractor == sEmployee->getDesignationType())
             {
-                cout << " External Agency : " << ems::empAgency[sEmployee->getAgencyName()] << endl;
-                cout << " Agency Location : " << ems::empLocation[sEmployee->getAgencyLocation()];
+                std::cout << " External Agency : " << ems::empAgency[sEmployee->getAgencyName()] << std::endl;
+                std::cout << " Agency Location : " << ems::empLocation[sEmployee->getAgencyLocation()];
             }
             else
             {
-                cout << " College         : " << ems::empCollege[sEmployee->getCollege()] << endl;
-                cout << " Branch          : " << ems::empBranch[sEmployee->getBranch()];
+                std::cout << " College         : " << ems::empCollege[sEmployee->getCollege()] << std::endl;
+                std::cout << " Branch          : " << ems::empBranch[sEmployee->getBranch()];
             }
             sCheckFlag = 1;
             break;
         }
-        sFrontNode = sFrontNode->mTail;
+        sFrontNode = sFrontNode->mNext;
     }
     if(sCheckFlag == 0)
     {
-        cout << empIdParam << "is not present in our Employee Records." << endl;
+        std::cout << empIdParam << "is not present in our Employee Records." << std::endl;
     }
 }
 
-void xyzEmployeeManager::searchEmployeewithName(string empNameParam)
+void xyzEmployeeManager::searchEmployeewithName(std::string empNameParam)
 {
     int sEmpCount = mActiveandInactiveEmpDeq->size();
     Node<xyzEmployeeInterface> *sFrontNode = mActiveandInactiveEmpDeq->getNodeAtPos(0);
@@ -333,39 +339,39 @@ void xyzEmployeeManager::searchEmployeewithName(string empNameParam)
         xyzEmployeeInterface *sEmployee = sFrontNode->mData;
         if(empNameParam == sEmployee->getEmpName())
         {
-            cout << " Employee Name   : " << sEmployee->getEmpName() << endl;
-            cout << " Employee ID     : " << sEmployee->getEmpId() << endl;
-            cout << " Employee Type   : " << ems::empType[sEmployee->getDesignationType()] << endl;
-            cout << " Employee Status : " << ems::empStatus[sEmployee->getDesignationStatus()] << endl;
-            cout << " Gender          : " << ems::empGender[sEmployee->getGender()] << endl;
-            cout << " Date Of Birth   : " << sEmployee->getDateOfBirth() << endl;
-            cout << " Date Of Joining : " << sEmployee->getDateOfJoining() << endl;
+            std::cout << " Employee Name   : " << sEmployee->getEmpName() << std::endl;
+            std::cout << " Employee ID     : " << sEmployee->getEmpId() << std::endl;
+            std::cout << " Employee Type   : " << ems::empType[sEmployee->getDesignationType()] << std::endl;
+            std::cout << " Employee Status : " << ems::empStatus[sEmployee->getDesignationStatus()] << std::endl;
+            std::cout << " Gender          : " << ems::empGender[sEmployee->getGender()] << std::endl;
+            std::cout << " Date Of Birth   : " << sEmployee->getDateOfBirth() << std::endl;
+            std::cout << " Date Of Joining : " << sEmployee->getDateOfJoining() << std::endl;
             if(ems::FullTime == sEmployee->getDesignationType())
             {
-                cout << " Leaves left     :" << sEmployee->getNoofLeavesAvailed();
+                std::cout << " Leaves left     :" << sEmployee->getNoofLeavesAvailed();
             }
             else if(ems::Contractor == sEmployee->getDesignationType())
             {
-                cout << " External Agency : " << ems::empAgency[sEmployee->getAgencyName()] << endl;
-                cout << " Agency Location : " << ems::empLocation[sEmployee->getAgencyLocation()];
+                std::cout << " External Agency : " << ems::empAgency[sEmployee->getAgencyName()] << std::endl;
+                std::cout << " Agency Location : " << ems::empLocation[sEmployee->getAgencyLocation()];
             }
             else
             {
-                cout << " College         : " << ems::empCollege[sEmployee->getCollege()] << endl;
-                cout << " Branch          : " << ems::empBranch[sEmployee->getBranch()];
+                std::cout << " College         : " << ems::empCollege[sEmployee->getCollege()] << std::endl;
+                std::cout << " Branch          : " << ems::empBranch[sEmployee->getBranch()];
             }
             sCheckFlag = 1;
             break;
         }
-        sFrontNode = sFrontNode->mTail;
+        sFrontNode = sFrontNode->mNext;
     }
     if(sCheckFlag == 0)
     {
-        cout << empNameParam << "is not present in our Employee Records." << endl;
+        std::cout << empNameParam << "is not present in our Employee Records." << std::endl;
     }
 }
 
-void xyzEmployeeManager::convertInternToFullTimeEmployee(string empIdParam, xyzRandomGenerator randomobjParam)
+void xyzEmployeeManager::convertInternToFullTimeEmployee(std::string empIdParam, xyzRandomGenerator randomobjParam)
 {
     int sEmpCount = mActiveandInactiveEmpDeq->size();
     Node<xyzEmployeeInterface> *sFrontNode = mActiveandInactiveEmpDeq->getNodeAtPos(0);
@@ -379,30 +385,32 @@ void xyzEmployeeManager::convertInternToFullTimeEmployee(string empIdParam, xyzR
         {
             if(sEmployee->getDesignationType() == ems::Contractor || sEmployee->getDesignationType() == ems::Intern)
             {
-                string sEmpName = sEmployee->getEmpName();
-                string sEmpDOJ = sEmployee->getDateOfJoining();
-                string sEmpDOB = sEmployee->getDateOfBirth();
+                std::string sEmpName = sEmployee->getEmpName();
+                std::string sEmpDOJ = sEmployee->getDateOfJoining();
+                std::string sEmpDOB = sEmployee->getDateOfBirth();
                 EmpGender sEmpGender = sEmployee->getGender();
                 EmpStatus sEmpStatus = sEmployee->getDesignationStatus();
                 int sNoOfLeaves = randomobjParam.generateRandomNoofLeaves();
-                string sEmpIdParam = empIdParam.substr(0,7) + "F";
+                std::string sEmpIdParam = empIdParam.substr(0,7) + "F";
 
                 xyzEmployeeInterface *sNewFullTimeEmployee = new xyzFullTimeEmployee(sEmpIdParam,sEmpName,ems::FullTime,sEmpStatus,sEmpGender,sEmpDOB,sEmpDOJ,"N/A",sNoOfLeaves);
 
+                delete sFrontNode->mData;
                 sFrontNode->mData = sNewFullTimeEmployee;
                 sEmpFlag = 1;
             }
             else
             {
-                cout << "Already a Full time Employee." << endl;
+                std::cout << "Already a Full time Employee." << std::endl;
                 sEmpFlag = 1;
             }
+            
         }
-        sFrontNode = sFrontNode->mTail;
+        sFrontNode = sFrontNode->mNext;
     }
     if(sEmpFlag == 0)
     {
-        cout << "EmployeeId is Not Available." << endl;
+        std::cout << "EmployeeId is Not Available." << std::endl;
     }
 }
 
@@ -419,7 +427,7 @@ void xyzEmployeeManager::addNoOfLeavestoallFullTimeEmployees(int noOfleavesParam
         {
             sEmployee->addNoOfleavestoFullTimeEmployees(noOfleavesParam);
         }
-        sFrontNode = sFrontNode->mTail;
+        sFrontNode = sFrontNode->mNext;
     }
 }
 
@@ -430,6 +438,6 @@ int xyzEmployeeManager::getsize()
 
 void xyzEmployeeManager::checkFunc()
 {
-    cout << "Active size in checkFunc: " << mActiveandInactiveEmpDeq->size() << endl;
-    cout << "Resigned size in checkFunc: " << mResignedEmpDeq->size() << endl;
+    std::cout << "Active size in checkFunc: " << mActiveandInactiveEmpDeq->size() << std::endl;
+    std::cout << "Resigned size in checkFunc: " << mResignedEmpDeq->size() << std::endl;
 }

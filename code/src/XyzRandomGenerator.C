@@ -10,15 +10,15 @@ xyzRandomGenerator::xyzRandomGenerator() {
 
 xyzRandomGenerator::~xyzRandomGenerator() {}
 
-string generateRandomDateinString(int startYearParam, int endYearParam)
+std::string generateRandomDateinstring(int startYearParam, int endYearParam)
 {
-    random_device rd;
-    mt19937 gen(rd());
+    std::random_device rd;
+    std::mt19937 gen(rd());
 
-    uniform_int_distribution<> yearDist(startYearParam, endYearParam);
+    std::uniform_int_distribution<> yearDist(startYearParam, endYearParam);
     int sRandYear = yearDist(gen);
 
-    uniform_int_distribution<> monthDist(1, 12);
+    std::uniform_int_distribution<> monthDist(1, 12);
     int sRandMonth = monthDist(gen);
 
     int sRandDaylimit;
@@ -31,100 +31,100 @@ string generateRandomDateinString(int startYearParam, int endYearParam)
         sRandDaylimit = 31;
     }
 
-    uniform_int_distribution<> dayDist(1, sRandDaylimit);
+    std::uniform_int_distribution<> dayDist(1, sRandDaylimit);
     int sRandDay = dayDist(gen);
 
-    string sRandDate = to_string(sRandDay) + "-" + to_string(sRandMonth) + "-" + to_string(sRandYear);
+    std::string sRandDate = std::to_string(sRandDay) + "-" + std::to_string(sRandMonth) + "-" + std::to_string(sRandYear);
 
     return sRandDate;
 }
 
-string generateRandomFirstName()
+std::string generateRandomFirstName()
 {
-    static random_device rd;
-    static mt19937 gen(rd());
-    uniform_int_distribution<> dist(1, static_cast<int>(SurName::Kumar) - 1);
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(1, static_cast<int>(SurName::Kumar) - 1);
 
     return ems::empSurName[static_cast<SurName>(dist(gen))];
 }
 
-string generateRandomLastName(xyzRandomGenerator randObjParam)
+std::string generateRandomLastName(xyzRandomGenerator randObjParam)
 {
-    static random_device rd;
-    static mt19937 gen(rd());
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
     if(randObjParam.mGenderDecideParam == 0)
     {
-        uniform_int_distribution<> dist(1, static_cast<int>(MaleName::EndMaleName) - 1);
+        std::uniform_int_distribution<> dist(1, static_cast<int>(MaleName::EndMaleName) - 1);
         return ems::empMaleName[static_cast<MaleName>(dist(gen))];
     }
     else
     {
-        uniform_int_distribution<> dist(1, static_cast<int>(FemaleName::EndFemaleName) - 1);
+        std::uniform_int_distribution<> dist(1, static_cast<int>(FemaleName::EndFemaleName) - 1);
         return ems::empFemaleName[static_cast<FemaleName>(dist(gen))];
     }
 
 }
 
-string xyzRandomGenerator::generateRandomName(xyzRandomGenerator randObjParam)
+std::string xyzRandomGenerator::generateRandomName(xyzRandomGenerator randObjParam)
 {
-    string sRandFirstName = generateRandomFirstName();
-    string sRandLastName = generateRandomLastName(randObjParam);
+    std::string sRandFirstName = generateRandomFirstName();
+    std::string sRandLastName = generateRandomLastName(randObjParam);
 
-    string sRandName = sRandLastName + " " + sRandFirstName;
+    std::string sRandName = sRandLastName + " " + sRandFirstName;
 
     return sRandName;
 }
 
 ems::EmpType xyzRandomGenerator::generateRandomDesignationType()
 {
-    static random_device rd;
-    static mt19937 gen(rd());
-    uniform_int_distribution<> dist(1, static_cast<int>(EmpType::EndEmpType) - 1);
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(1, static_cast<int>(EmpType::EndEmpType) - 1);
 
     return static_cast<EmpType>(dist(gen));
 }
 
 ems::EmpStatus xyzRandomGenerator::generateRandomDesignationStatus()
 {
-    static random_device rd;
-    static mt19937 gen(rd());
-    uniform_int_distribution<> dist(1, static_cast<int>(EmpStatus::EndEmpStatus) - 1);
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(1, static_cast<int>(EmpStatus::EndEmpStatus) - 1);
 
     return static_cast<EmpStatus>(dist(gen));
 }
 
-string xyzRandomGenerator::generateRandomDateOfBirth()
+std::string xyzRandomGenerator::generateRandomDateOfBirth()
 {
-    string sRandDateOfBirth = generateRandomDateinString(1900,2000);
+    std::string sRandDateOfBirth = generateRandomDateinstring(1900,2000);
 
     return sRandDateOfBirth;
 }
 
-string xyzRandomGenerator::generateRandomDateOfJoining(string sDobParam)
+std::string xyzRandomGenerator::generateRandomDateOfJoining(std::string sDobParam)
 {
 
     int sYear = stoi(sDobParam.substr(sDobParam.size()-4));
 
-    string sRandDateofJoining = generateRandomDateinString(sYear+22,2025);
+    std::string sRandDateofJoining = generateRandomDateinstring(sYear+22,2025);
 
     return sRandDateofJoining;
 }
 
-string xyzRandomGenerator::generateRandomDateOfLeaving(string DojParam)
+std::string xyzRandomGenerator::generateRandomDateOfLeaving(std::string DojParam)
 {
     int sYear = stoi(DojParam.substr(DojParam.size()-4));
 
-    string sRandDateOfLeaving = generateRandomDateinString(sYear,2025);
+    std::string sRandDateOfLeaving = generateRandomDateinstring(sYear,2025);
 
     return sRandDateOfLeaving;
 }
 
 int xyzRandomGenerator::generateRandomNoofLeaves()
 {
-    random_device rd;
-    mt19937 gen(rd());
+    std::random_device rd;
+    std::mt19937 gen(rd());
 
-    uniform_int_distribution<> yearDist(1, 22);
+    std::uniform_int_distribution<> yearDist(1, 22);
     int sRandLeaves = yearDist(gen);
 
     return sRandLeaves;
@@ -132,9 +132,9 @@ int xyzRandomGenerator::generateRandomNoofLeaves()
 
 Agency xyzRandomGenerator::generateRandomAgency()
 {
-    static random_device rd;
-    static mt19937 gen(rd());
-    uniform_int_distribution<> dist(1, static_cast<int>(Agency::EndAgency) - 1);
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(1, static_cast<int>(Agency::EndAgency) - 1);
 
     return static_cast<Agency>(dist(gen));
 }
@@ -142,18 +142,18 @@ Agency xyzRandomGenerator::generateRandomAgency()
 College xyzRandomGenerator::generateRandomCollege()
 {
 
-    static random_device rd;
-    static mt19937 gen(rd());
-    uniform_int_distribution<> dist(1, static_cast<int>(College::EndCollege) - 1);
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(1, static_cast<int>(College::EndCollege) - 1);
 
     return static_cast<College>(dist(gen));
 }
 
 EmpGender xyzRandomGenerator::generateRandomEmpGender()
 {
-    static random_device rd;
-    static mt19937 gen(rd());
-    uniform_int_distribution<> dist(1, static_cast<int>(EmpGender::EndEmpGender) - 1);
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(1, static_cast<int>(EmpGender::EndEmpGender) - 1);
 
     return static_cast<EmpGender>(dist(gen));
 }
@@ -161,18 +161,18 @@ EmpGender xyzRandomGenerator::generateRandomEmpGender()
 
 Branch xyzRandomGenerator::generateRandomBranch()
 {
-    static random_device rd;
-    static mt19937 gen(rd());
-    uniform_int_distribution<> dist(1, static_cast<int>(Branch::EndBranch) - 1);
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(1, static_cast<int>(Branch::EndBranch) - 1);
 
     return static_cast<Branch>(dist(gen));
 }
 
 Location xyzRandomGenerator::generateRandomLocation()
 {
-    static random_device rd;
-    static mt19937 gen(rd());
-    uniform_int_distribution<> dist(1, static_cast<int>(Location::EndLocation) - 1);
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(1, static_cast<int>(Location::endlocation) - 1);
 
     return static_cast<Location>(dist(gen));
 }

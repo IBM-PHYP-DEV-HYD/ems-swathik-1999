@@ -10,16 +10,16 @@ private:
     unsigned int mNoofLeavesAvailed;
 public:
     xyzFullTimeEmployee();
-    xyzFullTimeEmployee(string empIDParam,string nameParam,
+    xyzFullTimeEmployee(std::string empIDParam,std::string nameParam,
             ems::EmpType typeParam,ems::EmpStatus statusParam,
-            ems::EmpGender genderParam,string dobParam,
-            string dojParam,string dolParam,
+            ems::EmpGender genderParam,std::string dobParam,
+            std::string dojParam,std::string dolParam,
             int leavesAvailedParam);
     ~xyzFullTimeEmployee();
-    int getTotalNoofLeaves();
-    int getNoofLeavesAvailed();
+    const int getTotalNoofLeaves();
+    const int getNoofLeavesAvailed();
     void setNoofLeavesAvailed(unsigned int leavesAvailedParam);
-    void fillEmployeeTypeDetails(EmployeeInfo &empInfoParam);
+    void const fillEmployeeTypeDetails(EmployeeInfoRecord *empInfoParam);
     void addNoOfleavestoFullTimeEmployees(int noOfleavesParam);
 };
 

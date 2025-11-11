@@ -8,8 +8,6 @@
 #include <ctime>
 #include <random>
 
-using namespace std;
-
 namespace ems{
     
     enum MainMenu{
@@ -116,7 +114,7 @@ namespace ems{
         Kolkata,
         Chennai,
         Banglore,
-        EndLocation
+        endlocation
     };
 
     enum SurName {
@@ -188,23 +186,23 @@ namespace ems{
         Failure = 0
     };
 
-    extern string empSurName[];
-    extern string empMaleName[];
-    extern string empFemaleName[];
-    extern string empType[];
-    extern string empStatus[];
-    extern string empGender[];
-    extern string empAgency[];
-    extern string empCollege[];
-    extern string empBranch[];
-    extern string empLocation[];
+    extern std::string empSurName[];
+    extern std::string empMaleName[];
+    extern std::string empFemaleName[];
+    extern std::string empType[];
+    extern std::string empStatus[];
+    extern std::string empGender[];
+    extern std::string empAgency[];
+    extern std::string empCollege[];
+    extern std::string empBranch[];
+    extern std::string empLocation[];
 }
 
 
 
-string calculateEmployeeID(int empIdparam,ems::EmpType empTypeParam);
-string calculateInternLastDate(string dateOfJoiningParam);
-string calculatorContractorLastDate(string dateOfJoiningParam);
+std::string calculateEmployeeID(int empIdparam,ems::EmpType empTypeParam);
+std::string calculateInternLastDate(std::string dateOfJoiningParam);
+std::string calculatorContractorLastDate(std::string dateOfJoiningParam);
 void mainMenu();
 void addEmployeeMenu();
 void getEmployeeAgency();
@@ -218,7 +216,7 @@ void getDesignationStatusBaseMenu();
 void doSomethingElseMenu();
 void printEmployeeHeader(int widthParam, ems::printHeaderType optionParam);
 ems::InputValid isValidInput();
-ems::InputValid isValidEmpId(string inputParam);
+ems::InputValid isValidEmpId(std::string inputParam);
 
 
 

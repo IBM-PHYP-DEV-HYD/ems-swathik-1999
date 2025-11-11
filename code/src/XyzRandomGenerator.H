@@ -12,12 +12,12 @@ public:
     static int mGenderDecideParam;
     xyzRandomGenerator();
     ~xyzRandomGenerator();
-    string generateRandomName(xyzRandomGenerator randObjParam);
+    std::string generateRandomName(xyzRandomGenerator randObjParam);
     ems::EmpType generateRandomDesignationType();
     ems::EmpStatus generateRandomDesignationStatus();
-    string generateRandomDateOfBirth();
-    string generateRandomDateOfJoining(string sDobParam); 
-    string generateRandomDateOfLeaving(string sDojParam);
+    std::string generateRandomDateOfBirth();
+    std::string generateRandomDateOfJoining(std::string sDobParam); 
+    std::string generateRandomDateOfLeaving(std::string sDojParam);
     ems::EmpGender generateRandomEmpGender();
     int generateRandomNoofLeaves();
     Agency generateRandomAgency();
