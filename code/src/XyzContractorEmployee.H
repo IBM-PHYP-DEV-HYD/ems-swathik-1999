@@ -3,7 +3,6 @@
 
 #include "XyzEmployee.H"
 #include "Utilities.H"
-#include "EmployeeInfoRecord.H"
 
 class xyzContractorEmployee:public xyzEmployee
 {
@@ -22,7 +21,8 @@ public:
     const ems::Location getAgencyLocation();
     void setAgencyName(ems::Agency agencyName);
     void setAgencyLocation(ems::Location agencyLocation);
-    const void fillEmployeeTypeDetails(EmployeeInfoRecord *empInfoParam);
+    const void printEmployeeDetails(bool printAllParm);
+    const void printSingleEmployeeDetails();
 };
 
 

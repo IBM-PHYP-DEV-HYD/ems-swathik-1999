@@ -52,7 +52,8 @@ public:
     virtual const int getNoofLeavesAvailed();
     virtual void setNoofLeavesAvailed(unsigned int leavesAvailedParam);
     virtual void addNoOfleavestoFullTimeEmployees(int noOfLeavesParam);
-    virtual const void fillEmployeeTypeDetails(EmployeeInfoRecord *empInfoParam);
+    virtual const void printEmployeeDetails(bool printAllParm);
+    virtual const void printSingleEmployeeDetails();
 };
 
 #endif  // _XYZ_EMPLOYEE_H_

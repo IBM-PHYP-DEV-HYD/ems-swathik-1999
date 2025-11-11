@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 #include "Utilities.H"
-#include "EmployeeInfoRecord.H"
 
 
 class xyzEmployeeInterface
@@ -13,7 +12,8 @@ public:
     xyzEmployeeInterface(){}
     virtual ~xyzEmployeeInterface() = default;
     
-    virtual const void fillEmployeeTypeDetails(EmployeeInfoRecord *empInfoParam) = 0;
+    virtual const void printEmployeeDetails(bool printAllParm) = 0;
+    virtual const void printSingleEmployeeDetails() = 0;
     virtual const std::string getEmpName() = 0;
     virtual const std::string getEmpId() = 0;
     virtual const ems::EmpType getDesignationType() = 0;

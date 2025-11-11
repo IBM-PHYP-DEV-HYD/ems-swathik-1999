@@ -39,16 +39,43 @@ void xyzContractorEmployee::setAgencyLocation(ems::Location agencyLocationParam)
     this->mAgencyLocation = agencyLocationParam;
 }
 
-const void xyzContractorEmployee::fillEmployeeTypeDetails(EmployeeInfoRecord *empInfoParam)
+const void xyzContractorEmployee::printEmployeeDetails(bool printAllParm)
 {
-    empInfoParam->setEmpName(this->getEmpName());
-    empInfoParam->setEmpId(this->getEmpId());
-    empInfoParam->setEmpType(ems::empType[this->getDesignationType()]);
-    empInfoParam->setEmpStatus(ems::empStatus[this->getDesignationStatus()]);
-    empInfoParam->setEmpGender(ems::empGender[this->getGender()]);
-    empInfoParam->setDOB(this->getDateOfBirth());
-    empInfoParam->setDOJ(this->getDateOfJoining());
-    empInfoParam->setDOL(this->getDateOfLeaving());
-    empInfoParam->setAgency(ems::empAgency[this->getAgencyName()]);
-    empInfoParam->setLocation(ems::empLocation[this->getAgencyLocation()]);
+    std::cout << "| "<< std::left << std::setw(24) << std::setfill(' ') << this->getEmpName();
+    std::cout << "| "<< std::left << std::setw(12)<< std::setfill(' ') << this->getEmpId();
+    std::cout << "| "<< std::left << std::setw(14)<< std::setfill(' ') << ems::empType[this->getDesignationType()];
+    std::cout << "| "<< std::left << std::setw(14)<< std::setfill(' ') << ems::empStatus[this->getDesignationStatus()];
+    std::cout << "| "<< std::left << std::setw(14)<< std::setfill(' ') << ems::empGender[this->getGender()];
+    std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfBirth();
+    std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfJoining();
+    std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfLeaving().length() ? this->getDateOfLeaving() : "--";
+    if(printAllParm)
+    {
+        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+    }
+    std::cout << "| "<< std::left << std::setw(18) << std::setfill(' ') << ems::empAgency[this->getAgencyName()];
+    std::cout << "| "<< std::left << std::setw(18) << std::setfill(' ') << ems::empLocation[this->getAgencyLocation()];
+    if(!printAllParm)
+    {
+        std::cout << std::endl;
+    }
+    if(printAllParm)
+    {
+        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--" << std::endl;;
+    }
+}
+
+const void xyzContractorEmployee::printSingleEmployeeDetails()
+{
+    std::cout << " Employee Name   : " << this->getEmpName()<< std::endl;
+    std::cout << " Employee ID     : " << this->getEmpId()<< std::endl;
+    std::cout << " Employee Type   : " << ems::empType[this->getDesignationType()]<< std::endl;
+    std::cout << " Employee Status : " << ems::empStatus[this->getDesignationStatus()]<< std::endl;
+    std::cout << " Gender          : " << ems::empGender[this->getGender()]<< std::endl;
+    std::cout << " Date Of Birth   : " << this->getDateOfBirth()<< std::endl;
+    std::cout << " Date Of Joining : " << this->getDateOfJoining()<< std::endl;
+    std::cout << " External Agency : " << ems::empAgency[this->getAgencyName()]<< std::endl;
+    std::cout << " Agency Location : " << ems::empLocation[this->getAgencyLocation()];
 }

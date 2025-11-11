@@ -36,16 +36,36 @@ const ems::College xyzInternEmployee::getCollege()
     return this->mCollege;
 }
 
-const void xyzInternEmployee::fillEmployeeTypeDetails(EmployeeInfoRecord *empInfoParam)
+const void xyzInternEmployee::printEmployeeDetails(bool printAllParm)
 {
-    empInfoParam->setEmpName(this->getEmpName());
-    empInfoParam->setEmpId(this->getEmpId());
-    empInfoParam->setEmpType(ems::empType[this->getDesignationType()]);
-    empInfoParam->setEmpStatus(ems::empStatus[this->getDesignationStatus()]);
-    empInfoParam->setEmpGender(ems::empGender[this->getGender()]);
-    empInfoParam->setDOB(this->getDateOfBirth());
-    empInfoParam->setDOJ(this->getDateOfJoining());
-    empInfoParam->setDOL(this->getDateOfLeaving());
-    empInfoParam->setCollege(ems::empCollege[this->getCollege()]);
-    empInfoParam->setBranch(ems::empBranch[this->getBranch()]);
+    std::cout << "| "<< std::left << std::setw(24) << std::setfill(' ') << this->getEmpName();
+    std::cout << "| "<< std::left << std::setw(12)<< std::setfill(' ') << this->getEmpId();
+    std::cout << "| "<< std::left << std::setw(14)<< std::setfill(' ') << ems::empType[this->getDesignationType()];
+    std::cout << "| "<< std::left << std::setw(14)<< std::setfill(' ') << ems::empStatus[this->getDesignationStatus()];
+    std::cout << "| "<< std::left << std::setw(14)<< std::setfill(' ') << ems::empGender[this->getGender()];
+    std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfBirth();
+    std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfJoining();
+    std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfLeaving().length() ? this->getDateOfLeaving() : "--";
+    if(printAllParm)
+    {
+        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+    }
+    std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << ems::empCollege[this->getCollege()];
+    std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << ems::empBranch[this->getBranch()] << std::endl;
+}
+
+const void xyzInternEmployee::printSingleEmployeeDetails()
+{
+    std::cout << " Employee Name   : " << this->getEmpName()<< std::endl;
+    std::cout << " Employee ID     : " << this->getEmpId()<< std::endl;
+    std::cout << " Employee Type   : " << ems::empType[this->getDesignationType()]<< std::endl;
+    std::cout << " Employee Status : " << ems::empStatus[this->getDesignationStatus()]<< std::endl;
+    std::cout << " Gender          : " << ems::empGender[this->getGender()]<< std::endl;
+    std::cout << " Date Of Birth   : " << this->getDateOfBirth()<< std::endl;
+    std::cout << " Date Of Joining : " << this->getDateOfJoining()<< std::endl;
+    std::cout << " College         : " << ems::empCollege[this->getCollege()]<< std::endl;
+    std::cout << " Branch          : " << ems::empBranch[this->getBranch()] << std::endl;
 }

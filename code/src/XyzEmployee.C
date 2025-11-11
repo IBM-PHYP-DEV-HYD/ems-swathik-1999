@@ -141,6 +141,10 @@ void xyzEmployee::setNoofLeavesAvailed(unsigned int) {
 void xyzEmployee::addNoOfleavestoFullTimeEmployees(int) {
 }
 
-const void xyzEmployee::fillEmployeeTypeDetails(EmployeeInfoRecord *empInfoParam) {
+const void xyzEmployee::printEmployeeDetails(bool printAllParm) {
+    
+}
+
+const void xyzEmployee::printSingleEmployeeDetails() {
     
 }

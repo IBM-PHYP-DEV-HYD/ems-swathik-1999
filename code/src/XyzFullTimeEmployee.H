@@ -19,8 +19,9 @@ public:
     const int getTotalNoofLeaves();
     const int getNoofLeavesAvailed();
     void setNoofLeavesAvailed(unsigned int leavesAvailedParam);
-    void const fillEmployeeTypeDetails(EmployeeInfoRecord *empInfoParam);
+    void const printEmployeeDetails(bool printAllParm);
     void addNoOfleavestoFullTimeEmployees(int noOfleavesParam);
+    const void printSingleEmployeeDetails();
 };
 
 

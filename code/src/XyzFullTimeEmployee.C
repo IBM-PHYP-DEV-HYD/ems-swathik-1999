@@ -45,18 +45,41 @@ void xyzFullTimeEmployee::setNoofLeavesAvailed(unsigned int leavesAvailedParam)
     this->mNoofLeavesAvailed = leavesAvailedParam;
 }
 
-const void xyzFullTimeEmployee::fillEmployeeTypeDetails(EmployeeInfoRecord *empinfoParam)
+const void xyzFullTimeEmployee::printEmployeeDetails(bool printAllParm)
 {
-    empinfoParam->setEmpName(this->getEmpName());
-    empinfoParam->setEmpId(this->getEmpId());
-    empinfoParam->setEmpType(ems::empType[this->getDesignationType()]);
-    empinfoParam->setEmpStatus(ems::empStatus[this->getDesignationStatus()]);
-    empinfoParam->setEmpGender(ems::empGender[this->getGender()]);
-    empinfoParam->setDOB(this->getDateOfBirth());
-    empinfoParam->setDOJ(this->getDateOfJoining());
-    empinfoParam->setDOL(this->getDateOfLeaving());
-    empinfoParam->setTotalLeaves(this->getTotalNoofLeaves());
-    empinfoParam->setNoOfLeaves(this->getNoofLeavesAvailed());
+    std::cout << "| "<< std::left << std::setw(24) << std::setfill(' ') << this->getEmpName();
+    std::cout << "| "<< std::left << std::setw(12)<< std::setfill(' ') << this->getEmpId();
+    std::cout << "| "<< std::left << std::setw(14)<< std::setfill(' ') << ems::empType[this->getDesignationType()];
+    std::cout << "| "<< std::left << std::setw(14)<< std::setfill(' ') << ems::empStatus[this->getDesignationStatus()];
+    std::cout << "| "<< std::left << std::setw(14)<< std::setfill(' ') << ems::empGender[this->getGender()];
+    std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfBirth();
+    std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfJoining();
+    std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfLeaving().length() ? this->getDateOfLeaving() : "--";
+    std::cout << "| "<< std::left << std::setw(18) << std::setfill(' ') << this->mTotalNoofLeaves;    
+    std::cout << "| "<< std::left << std::setw(18) << std::setfill(' ') << this->mNoofLeavesAvailed;
+    if(!printAllParm)
+    {
+        std::cout << std::endl;
+    }
+    if(printAllParm)
+    {
+        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--" << std::endl;;
+    }
+}
+
+const void xyzFullTimeEmployee::printSingleEmployeeDetails()
+{
+    std::cout << " Employee Name   : " << this->getEmpName()<< std::endl;
+    std::cout << " Employee ID     : " << this->getEmpId()<< std::endl;
+    std::cout << " Employee Type   : " << ems::empType[this->getDesignationType()]<< std::endl;
+    std::cout << " Employee Status : " << ems::empStatus[this->getDesignationStatus()]<< std::endl;
+    std::cout << " Gender          : " << ems::empGender[this->getGender()]<< std::endl;
+    std::cout << " Date Of Birth   : " << this->getDateOfBirth()<< std::endl;
+    std::cout << " Date Of Joining : " << this->getDateOfJoining()<< std::endl;
+    std::cout << " Leaves left     : " << this->getNoofLeavesAvailed() << std::endl;
 }
 
 void xyzFullTimeEmployee::addNoOfleavestoFullTimeEmployees(int noOfLeavesParam)
