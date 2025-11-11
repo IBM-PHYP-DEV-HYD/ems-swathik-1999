@@ -55,18 +55,21 @@ const void xyzFullTimeEmployee::printEmployeeDetails(bool printAllParm)
     std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfBirth();
     std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfJoining();
     std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfLeaving().length() ? this->getDateOfLeaving() : "--";
-    std::cout << "| "<< std::left << std::setw(18) << std::setfill(' ') << this->mTotalNoofLeaves;    
-    std::cout << "| "<< std::left << std::setw(18) << std::setfill(' ') << this->mNoofLeavesAvailed;
+    if(ems::empStatus[this->getDesignationStatus()] != "Resigned")
+    {
+        std::cout << "| "<< std::left << std::setw(18) << std::setfill(' ') << this->mTotalNoofLeaves;    
+        std::cout << "| "<< std::left << std::setw(18) << std::setfill(' ') << this->mNoofLeavesAvailed;
+        if(printAllParm)
+        {
+            std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+            std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+            std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+            std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--" << std::endl;;
+        }
+    }
     if(!printAllParm)
     {
         std::cout << std::endl;
-    }
-    if(printAllParm)
-    {
-        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
-        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
-        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
-        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--" << std::endl;;
     }
 }
 

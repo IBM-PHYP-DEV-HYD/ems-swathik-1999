@@ -61,6 +61,7 @@ void xyzEmployeeManager::removeEmployee(std::string empIDParam)
     xyzRandomGenerator sRandomGeneratorObj;
     int sEmpCount = mActiveandInactiveEmpDeq->size();
     Node<xyzEmployeeInterface> *sFrontNode = mActiveandInactiveEmpDeq->getNodeAtPos(0);
+    int sCheckFlag = 0;
 
     int sIdx;
     for(sIdx=0;sIdx<sEmpCount;sIdx++)
@@ -75,9 +76,14 @@ void xyzEmployeeManager::removeEmployee(std::string empIDParam)
             {
                 sEmployee->setDateOfLeaving(sRandomGeneratorObj.generateRandomDateOfLeaving(sEmployee->getDateOfJoining()));
             }
+            sCheckFlag = 1;
             break;
         }
         sFrontNode = sFrontNode->mNext;
+    }
+    if(sCheckFlag)
+    {
+        std::cout << "Given Employee ID is not present in our records." << std::endl;
     }
 }
 

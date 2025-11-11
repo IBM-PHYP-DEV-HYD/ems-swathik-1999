@@ -49,21 +49,25 @@ const void xyzContractorEmployee::printEmployeeDetails(bool printAllParm)
     std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfBirth();
     std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfJoining();
     std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << this->getDateOfLeaving().length() ? this->getDateOfLeaving() : "--";
-    if(printAllParm)
+    if(ems::empStatus[this->getDesignationStatus()] != "Resigned")
     {
-        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
-        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+        if(printAllParm)
+        {
+            std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+            std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+        }
+        std::cout << "| "<< std::left << std::setw(18) << std::setfill(' ') << ems::empAgency[this->getAgencyName()];
+        std::cout << "| "<< std::left << std::setw(18) << std::setfill(' ') << ems::empLocation[this->getAgencyLocation()];
+        if(printAllParm)
+        {
+            std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
+            std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--" << std::endl;;
+        }
     }
-    std::cout << "| "<< std::left << std::setw(18) << std::setfill(' ') << ems::empAgency[this->getAgencyName()];
-    std::cout << "| "<< std::left << std::setw(18) << std::setfill(' ') << ems::empLocation[this->getAgencyLocation()];
+    
     if(!printAllParm)
     {
         std::cout << std::endl;
-    }
-    if(printAllParm)
-    {
-        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--";
-        std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--" << std::endl;;
     }
 }
 
