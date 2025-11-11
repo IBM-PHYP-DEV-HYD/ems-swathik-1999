@@ -64,7 +64,6 @@ const void xyzContractorEmployee::printEmployeeDetails(bool printAllParm)
             std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << "--" << std::endl;;
         }
     }
-    
     if(!printAllParm)
     {
         std::cout << std::endl;

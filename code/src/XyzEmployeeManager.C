@@ -26,27 +26,45 @@ int xyzEmployeeManager::getStaticEmpID()
     return this->mStaticEmpId;
 }
 
-void xyzEmployeeManager::addNewEmployee(std::string empIDParam,std::string nameParam,
-        ems::EmpType typeParam,ems::EmpStatus statusParam,
-            ems::EmpGender genderParam,std::string dobParam,
-            std::string dojParam,std::string dolParam, int noOfLeavesParam, ems::Agency agencyParam,
-            ems::Location locationParam,ems::College collegeParam,ems::Branch branchParam)
+void xyzEmployeeManager::addNewEmployee(std::string nameParam,ems::EmpType typeParam,ems::EmpGender genderParm, xyzRandomGenerator randObjParam)
 {
+
+    std::string sRandEmpID = calculateEmployeeID(this->mStaticEmpId,typeParam);
+    setStaticEmpID();
+    std::string sRandDOB = randObjParam.generateRandomDateOfBirth();
+    std::string sRandDOJ = randObjParam.generateRandomDateOfJoining(sRandDOB);
+    EmpStatus sRandEmpStatus = randObjParam.generateRandomDesignationStatus();
+
     xyzEmployeeInterface *sNewEmployee = NULL;
     if(typeParam == ems::FullTime)
     {
-        sNewEmployee = new xyzFullTimeEmployee(empIDParam,nameParam,typeParam,statusParam,genderParam,dobParam,dojParam,dolParam,noOfLeavesParam);
+        int sRandLeaves = randObjParam.generateRandomNoofLeaves();
+        if(sRandEmpStatus == ems::Resigned)
+        {
+            std::string sRandDOL = randObjParam.generateRandomDateOfLeaving(sRandDOB);
+            sNewEmployee = new xyzFullTimeEmployee(sRandEmpID,nameParam,typeParam,sRandEmpStatus,genderParm,sRandDOB,sRandDOJ,sRandDOL,sRandLeaves);
+        }
+        else
+        {
+            sNewEmployee = new xyzFullTimeEmployee(sRandEmpID,nameParam,typeParam,sRandEmpStatus,genderParm,sRandDOB,sRandDOJ,"N/A",sRandLeaves);
+        }
     }
     else if(typeParam == ems::Contractor)
     {
-        sNewEmployee = new xyzContractorEmployee(empIDParam,nameParam,typeParam,statusParam,genderParam,dobParam,dojParam,dolParam,agencyParam,locationParam);
+        Agency sRandAgency = randObjParam.generateRandomAgency();
+        Location sRandLocation = randObjParam.generateRandomLocation();
+        std::string sRandDOL = calculatorContractorLastDate(sRandDOJ);
+        sNewEmployee = new xyzContractorEmployee(sRandEmpID,nameParam,typeParam,sRandEmpStatus,genderParm,sRandDOB,sRandDOJ,sRandDOL,sRandAgency,sRandLocation);
     }
     else if(typeParam == ems::Intern)
     {
-        sNewEmployee = new xyzInternEmployee(empIDParam,nameParam,typeParam,statusParam,genderParam,dobParam,dojParam,dolParam,collegeParam,branchParam);
+        College sRandCollege = randObjParam.generateRandomCollege();
+        Branch sRandBranch = randObjParam.generateRandomBranch();
+        std::string sRandDOL = calculateInternLastDate(sRandDOJ);
+        sNewEmployee = new xyzInternEmployee(sRandEmpID,nameParam,typeParam,sRandEmpStatus,genderParm,sRandDOB,sRandDOJ,sRandDOL,sRandCollege,sRandBranch);
     }
 
-    if(statusParam == ems::Resigned)
+    if(sRandEmpStatus == ems::Resigned)
     {
         mResignedEmpDeq->pushBack(sNewEmployee);
     }
@@ -81,25 +99,9 @@ void xyzEmployeeManager::removeEmployee(std::string empIDParam)
         }
         sFrontNode = sFrontNode->mNext;
     }
-    if(sCheckFlag)
+    if(sCheckFlag == 0)
     {
         std::cout << "Given Employee ID is not present in our records." << std::endl;
-    }
-}
-
-void xyzEmployeeManager::printResignedEmployeeSummary()
-{
-    int sResignedEmpCount = mResignedEmpDeq->size();
-    Node<xyzEmployeeInterface> *sFrontNode = mResignedEmpDeq->getNodeAtPos(0);
-
-    printEmployeeHeader(152, ems::ResignedType);
-
-    int sIdx;
-    for(sIdx=0;sIdx<sResignedEmpCount;sIdx++)
-    {
-        xyzEmployeeInterface *sEmployee = sFrontNode->mData;
-        sEmployee->printEmployeeDetails(true);
-        sFrontNode = sFrontNode->mNext;
     }
 }
 
@@ -214,7 +216,7 @@ void xyzEmployeeManager::printEmpSumByStatus(int empStatusParam)
     {
         sEmpCount = mResignedEmpDeq->size();
         sFrontNode = mResignedEmpDeq->getNodeAtPos(0);
-        printEmployeeHeader(270, ems::ResignedType);
+        printEmployeeHeader(152, ems::ResignedType);
     }
     else
     {
@@ -229,7 +231,14 @@ void xyzEmployeeManager::printEmpSumByStatus(int empStatusParam)
         xyzEmployeeInterface *sEmployee = sFrontNode->mData;
         if(empStatusParam == sEmployee->getDesignationStatus())
         {
-            sEmployee->printEmployeeDetails(true);
+            if("Resigned" == ems::empStatus[sEmployee->getDesignationStatus()])
+            {
+                 sEmployee->printEmployeeDetails(false);
+            }
+            else
+            {
+                sEmployee->printEmployeeDetails(true);
+            }
         }
         sFrontNode = sFrontNode->mNext;
     }

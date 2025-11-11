@@ -58,6 +58,10 @@ const void xyzInternEmployee::printEmployeeDetails(bool printAllParm)
         std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << ems::empCollege[this->getCollege()];
         std::cout << "| "<< std::left << std::setw(18)<< std::setfill(' ') << ems::empBranch[this->getBranch()] << std::endl;
     }
+    if(!printAllParm)
+    {
+        std::cout << std::endl;
+    }
 }
 
 const void xyzInternEmployee::printSingleEmployeeDetails()

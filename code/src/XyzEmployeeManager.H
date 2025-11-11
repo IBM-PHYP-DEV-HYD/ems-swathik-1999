@@ -23,13 +23,8 @@ public:
     void setStaticEmpID();
     int getStaticEmpID();
     int getsize();
-    void addNewEmployee(std::string empIDParam,std::string nameParam,
-            ems::EmpType typeParam,ems::EmpStatus statusParam,
-            ems::EmpGender genderParam,std::string dobParam,
-            std::string dojParam,std::string dolParam,int noOfLeavesParam, ems::Agency agencyParam,
-            ems::Location locationParam,ems::College collegeParam,ems::Branch branchParam);
+    void addNewEmployee(std::string nameParam,ems::EmpType typeParam,ems::EmpGender genderParm,xyzRandomGenerator randObjParam);
     void removeEmployee(std::string empIDParam);
-    void printResignedEmployeeSummary();
     void printAllEmployeeSummary();
     void printEmpSumByType(int empTypeParam);
     void printEmpSumByGender(int empGenderParam);

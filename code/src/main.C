@@ -7,16 +7,11 @@
 
 void processAddEmployee(xyzEmployeeManager *empManagerObj, xyzRandomGenerator randomObjParam)
 {
-    int sAddMenuChoice=0,sChoice = 1,sEmpNoofLeaves,sCheckFlag=0,sRetValue=1;
+    int sAddMenuChoice=0,sChoice = 1,sRetValue=1;
 
-    std::string sEmpName,sEmpId,sEmpDOB,sEmpDOJ,sEmpDOL;
+    std::string sEmpName;
     EmpType sEmpType;
-    EmpStatus sEmpStatus;
     EmpGender sEmpGender;
-    College sEmpCollege;
-    Branch sEmpBranch;
-    Agency sEmpAgency;
-    Location sEmpLocation;
 
     while(sRetValue)
     {
@@ -41,74 +36,14 @@ void processAddEmployee(xyzEmployeeManager *empManagerObj, xyzRandomGenerator ra
 
                     std::cout << "Enter Employee Name:";
                     std::cin >> sEmpName;
+
+                    std::cout << "Enter Gender \n 1.Male \n 2.Female \n 3.Others \n" << std::endl;;
+                    std::cin >> sChoice;
+
+                    sEmpGender = (EmpGender)sChoice;
                     if(isValidInput())
-                    {
-                        sEmpDOB = randomObjParam.generateRandomDateOfBirth();
-                        sEmpDOJ = randomObjParam.generateRandomDateOfJoining(sEmpDOB);
-
-                        std::cout << "Enter Employee Gender: \n 1. Female \n 2. Male \n 3. Others"<< std::endl;
-                        std::cin >> sChoice;
-
-                        if(isValidInput() && (sChoice > 0 && sChoice < 4))
-                        {
-                            sEmpGender = (EmpGender)sChoice;
-                            sEmpId = calculateEmployeeID(empManagerObj->getStaticEmpID(),sEmpType);
-                            empManagerObj->setStaticEmpID();
-
-                            std::cout << "Enter Employee Status: \n 1. Active \n 2. InActive \n 3. Resigned"<< std::endl;
-                            std::cin >> sChoice;
-                            if(isValidInput() && (sChoice > 0 && sChoice < 4))
-                            {
-                                sEmpStatus = (EmpStatus)sChoice;
-                                if(sEmpType == ems::Contractor)
-                                {
-                                    sEmpDOL = calculatorContractorLastDate(sEmpDOJ);
-                                    getEmployeeAgency();
-                                    std::cin>>sChoice;
-
-                                    if(isValidInput())
-                                    {
-                                        sEmpAgency = (Agency)sChoice;
-
-                                        contractorAgencyLocationDetails();
-                                        std::cin >> sChoice;
-                                        if(isValidInput())
-                                        {
-                                            sEmpLocation = (Location)sChoice;
-                                            sCheckFlag = 1;
-                                        }
-                                    }
-                                }
-                                else if(sEmpType == ems::Intern)
-                                {
-                                    sEmpDOL = calculateInternLastDate(sEmpDOJ);
-                                    internCollegeDetails();
-                                    std::cin >> sChoice;
-                                    if(isValidInput())
-                                    {
-                                        sEmpCollege = (College)sChoice;
-
-                                        internBranchDetails();
-                                        std::cin >> sChoice;
-                                        if(isValidInput())
-                                        {
-                                            sEmpBranch = (Branch)sChoice;
-                                            sCheckFlag = 1;
-                                        }
-                                    }
-                                }
-                                else if(sEmpType == ems::FullTime && sEmpStatus == ems::Resigned)
-                                {
-                                    sEmpDOL = randomObjParam.generateRandomDateOfLeaving(sEmpDOJ);
-                                    sEmpNoofLeaves = randomObjParam.generateRandomNoofLeaves();
-                                    sCheckFlag = 1;
-                                }
-                                if(sCheckFlag == 1 || sEmpType == ems::FullTime)
-                                {
-                                    empManagerObj->addNewEmployee(sEmpId,sEmpName,sEmpType,sEmpStatus,sEmpGender,sEmpDOB,sEmpDOJ,sEmpDOL,sEmpNoofLeaves,sEmpAgency,sEmpLocation,sEmpCollege,sEmpBranch);
-                                }
-                            }
-                        }
+                    { 
+                        empManagerObj->addNewEmployee(sEmpName,sEmpType,sEmpGender,randomObjParam);
                     }
                     else
                     {
